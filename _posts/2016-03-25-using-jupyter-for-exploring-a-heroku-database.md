@@ -15,7 +15,7 @@ wordpress_url: http://andyfiedler.com/?p=370
 date: '2016-03-25 14:59:45 -0400'
 date_gmt: '2016-03-25 18:59:45 -0400'
 categories:
-- Tech Notes
+- tech-notes
 tags:
 - python
 - jupyter

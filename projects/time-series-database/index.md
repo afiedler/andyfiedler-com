@@ -16,6 +16,9 @@ date: '2012-06-23 11:57:43 -0400'
 date_gmt: '2012-06-23 15:57:43 -0400'
 categories: []
 tags: []
+redirect_from:
+  - /projects/time-series-database
+  - /projects/time-series-database/
 ---
 ## Deprecated
 This project isn't being maintained any more. Check out my replacement, <a title="TsTables &ndash; Store High Frequency Data with PyTables" href="http:&#47;&#47;andyfiedler.com&#47;projects&#47;tstables-store-high-frequency-data-with-pytables&#47;">TsTables<&#47;a>!</p>

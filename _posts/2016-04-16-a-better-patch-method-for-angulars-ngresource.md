@@ -1,6 +1,9 @@
 ---
 layout: post
 title: A Better $patch Method for Angular's ngResource
+redirect_from:
+  - /blog/a-better-patch-method-for-angulars-ngresource-373/
+  - /blog/a-better-patch-method-for-angulars-ngresource-373/
 ---
 
 Angular's ngResource makes a pretty decent starting point for developing a front-end model layer, but tends to be a little simplistic as your backend API gets more sophisticated.

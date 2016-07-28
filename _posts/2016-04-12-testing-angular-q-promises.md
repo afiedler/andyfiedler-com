@@ -15,8 +15,7 @@ wordpress_url: http://andyfiedler.com/?p=372
 date: '2016-04-12 10:27:44 -0400'
 date_gmt: '2016-04-12 14:27:44 -0400'
 categories:
-- Tech Notes
-- Web Development
+- tech-notes
 tags:
 - angularjs
 ---

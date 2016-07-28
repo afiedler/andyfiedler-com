@@ -19,6 +19,9 @@ categories:
 - Scrapbook
 tags:
 - postgres
+redirect_from:
+  - /blog/quick-tip-fixing-postgres-operator-class-gin_trgm_ops-does-not-exist-for-access-method-gin-318/
+  - /blog/quick-tip-fixing-postgres-operator-class-gin_trgm_ops-does-not-exist-for-access-method-gin-318  
 ---
 This error can show up when you are trying to load a schema into a new database in Postgres that has been dumped from a database with the pg_trgm extension. You can fix it by adding the extension to the template database (template1) so that when you create a new database, it is already there, ready to go.
 

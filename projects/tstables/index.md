@@ -17,6 +17,9 @@ date: '2014-06-30 10:36:13 -0400'
 date_gmt: '2014-06-30 14:36:13 -0400'
 categories: []
 tags: []
+redirect_from:
+  - /projects/tstables-store-high-frequency-data-with-pytables/
+  - /projects/tstables-store-high-frequency-data-with-pytables
 ---
 TsTables is a simple extension to the [PyTables library](http://pytables.github.io/) that helps with storing large volumes of high frequency time series data in the [HDF5](http://www.hdfgroup.org/) format.
 

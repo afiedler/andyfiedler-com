@@ -20,6 +20,9 @@ tags:
 - devops
 - single page apps
 - hosting
+redirect_from:
+  - /blog/single-page-app-hosting-345/
+  - /blog/single-page-app-hosting-345
 ---
 If you are working on an MVP web app these days, chances are you are using a single page app (SPA) framework like Angular, React, or EmberJS. These frameworks are great for a lot of reasons, one being that you can typically host the front-end with just a static file webserver like NGINX or Apache.
 

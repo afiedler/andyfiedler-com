@@ -20,6 +20,9 @@ categories:
 - Web Development
 tags:
 - oauth
+redirect_from:
+  - /blog/how-secure-is-the-oauth2-resource-owner-password-credential-flow-for-single-page-apps-282/
+  - /blog/how-secure-is-the-oauth2-resource-owner-password-credential-flow-for-single-page-apps-282
 ---
 I've been working on a single-page, browser-based app and I was investigating using the OAuth2 "Resource Owner Password Credential" (ROPC) flow to log users in without needing a normal OAuth popup or redirect. The single-page app is written by the same developers as the backend API, so it is more trusted than a third-party application (which should <em>never</em> touch a user's password). However, since it is a client-side application in Javascript, it was unclear to me how to take steps to make this as secure as possible, so I did some research. In this post, I'll describe what I found.
 <h2>What the OAuth spec says</h2>

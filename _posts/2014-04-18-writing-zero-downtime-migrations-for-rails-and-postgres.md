@@ -19,6 +19,9 @@ categories:
 tags:
 - postgres
 - rails
+redirect_from:
+ - /blog/writing-zero-downtime-migrations-for-rails-and-postgres-265/
+ - /blog/writing-zero-downtime-migrations-for-rails-and-postgres-265
 ---
 Let's suppose you are building an app. It is under heavy development and the dev team is cranking out new features left and right. Developers need to continually change the database schema, but you don't want to take down the app for database migrations if at all possible. How the heck do you do this with Rails?
 

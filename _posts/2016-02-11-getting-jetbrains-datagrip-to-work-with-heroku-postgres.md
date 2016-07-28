@@ -19,6 +19,9 @@ categories:
 tags:
 - postgres
 - datagrip
+redirect_from:
+  - /blog/getting-jetbrains-datagrip-to-work-with-heroku-postgres-361/
+  - /blog/getting-jetbrains-datagrip-to-work-with-heroku-postgres-361
 ---
 Heroku Postgres forces you to use SSL, but the connection isn't signed with a well-known CA. To get this to work in DataGrip, you have to mess around with some JDBC settings. Here's how to do it:
 

@@ -17,6 +17,9 @@ date_gmt: '2014-03-14 16:17:58 -0400'
 categories:
 - Tech Notes
 tags: []
+redirect_from:
+  - /blog/querying-inside-postgres-json-arrays-260/
+  - /blog/querying-inside-postgres-json-arrays-260
 ---
 Postgres JSON support is pretty amazing. I've been using it extensively for storing semi-structured data for a project and it has been great for that use case. In Postgres 9.3, the maintainers added the ability to perform some simple queries on JSON structures and a few functions to convert from JSON to Postgres arrays and result sets.
 
