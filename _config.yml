@@ -1,21 +1,22 @@
 # Dependencies
-markdown:         redcarpet
-highlighter:      pygments
+markdown:         kramdown
+highlighter:      rouge
+gems: [jekyll-paginate, jekyll-gist]
 
 # Permalinks
 permalink:        pretty
-relative_permalinks: true
+# relative_permalinks: true
 
 # Setup
-title:            Hyde
-tagline:          'A Jekyll theme'
-description:      'A brazen two-column <a href="http://jekyllrb.com" target="_blank">Jekyll</a> theme that pairs a prominent sidebar with uncomplicated content. Made by <a href="https://twitter.com/mdo" target="_blank">@mdo</a>.'
-url:              http://hyde.getpoole.com
+title:            'Andy Fiedler'
+tagline:          ''
+description:      ''
+url:              http://andyfiedler.com
 baseurl:          /
 
 author:
-  name:           'Mark Otto'
-  url:            https://twitter.com/mdo
+  name:           'Andy Fiedler'
+  url:            https://twitter.com/andyfiedler
 
 paginate:         5
 
