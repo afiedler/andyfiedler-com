@@ -28,4 +28,4 @@ You can get the <a title="Hiking Map CartoCSS" href="https://github.com/afiedler
 
 Here's Great Falls, Maryland with my changes.
 
-[caption id="attachment_314" align="aligncenter" width="660"]<a href="http://andyfiedler.com/wp-content/uploads/2015/05/great-falls.png"><img class="size-large wp-image-314" src="http://andyfiedler.com/wp-content/uploads/2015/05/great-falls-733x800.png" alt="Great Falls Hiking Map. Data from Open Street Map and Mapbox." width="660" height="720" /></a> Great Falls Hiking Map. Data from Open Street Map and Mapbox.[/caption]
+{% picture wp/uploads/2015/05/great-falls.png %}

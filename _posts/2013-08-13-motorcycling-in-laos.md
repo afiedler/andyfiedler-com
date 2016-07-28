@@ -36,21 +36,27 @@ In addition to the GT Rider map, you should also get an Open Street Map app for 
 
 Here's a map of the route we took and details of each leg.
 
-[advanced_iframe src="https://maps.google.com/maps/ms?msa=0&amp;msid=213059449424618329795.0004e1d4c6c3d82758c09&amp;ie=UTF8&amp;t=p&amp;ll=18.921876,102.661743&amp;spn=2.494061,3.515625&amp;z=8&amp;output=embed" width="640" height="480" scrolling="no" frameborder="0" securitykey="da39a3ee5e6b4b0d3255bfef95601890afd80709"]
+<iframe src="https://maps.google.com/maps/ms?msa=0&amp;msid=213059449424618329795.0004e1d4c6c3d82758c09&amp;ie=UTF8&amp;t=p&amp;ll=18.921876,102.661743&amp;spn=2.494061,3.515625&amp;z=8&amp;output=embed" width="640" height="480" scrolling="no" frameborder="0" securitykey="da39a3ee5e6b4b0d3255bfef95601890afd80709"></iframe>
 
 &nbsp;
 <h3>Vientiane to Vang Vieng, 154km</h3>
-[gallery ids="212,217,218"]
+{% picture wp/uploads/2013/08/IMG_20130712_134937.jpg %}
+{% picture wp/uploads/2013/08/IMG_20130712_145318.jpg %}
+{% picture wp/uploads/2013/08/IMG_20130712_124142.jpg %}
 
 If picking up your bikes in Vientiane, likely your first stop will be <a href="http://en.wikipedia.org/wiki/Vang_Vieng" target="_blank">Vang Vieng</a>. The ride to Vang Vieng is 154 km and fairly easy and flat until the last 50km or so where there are some small hills. Leaving Vientiane is where you will probably encounter the most traffic of the trip (not much!), but within 50km, it drops off a lot.
 
 Vang Vieng is a tourist town along the Nam Song river with lots of caving, waterfalls, and rafting available nearby. It is definitely worth at least one whole day exploring outside of the town. I think of the three towns we visited, Vang Vieng had the most spectacular scenery. The town is surrounded by a dramatic <a href="http://en.wikipedia.org/wiki/Karst_topography">karst landscape</a> that is even more surreal in the rainy season when the peaks are surrounded in fog. In Vang Vieng, we went to a cave, waterfall and "blue lagoon" (swimming hole) on our one full day there. These were all found on dirt paths leading out from the town, for which Open Street Map was a real help locating.
 <h3>Vang Vieng to Ponsavan, 233km</h3>
-[gallery ids="219,220,224"]
+{% picture wp/uploads/2013/08/IMG_20130713_074030.jpg %}
+{% picture wp/uploads/2013/08/IMG_20130714_074338.jpg %}
+{% picture wp/uploads/2013/08/IMG_20130713_142645.jpg %}
 
 The second long day of riding, Vang Vieng to Ponsavan, is 233 km of challenging riding with tons of very steep switchbacks and incredible views of some of the highest peaks in Laos. On this part of the ride, you are heading to <a href="http://wikitravel.org/en/Phonsavan">Ponsavan</a>, which is the capital of the providence containing the <a href="http://wikitravel.org/en/Plain_of_Jars">Plain of Jars</a>, a neolithic archeological site with large stone jars (some over 4 feet tall). The Plain of Jars was also bombed heavily during the Vietnam War as part of the CIA's covert war in Laos, so there is lots of war history in this area as well. Ponsavan has a few NGOs operating to clear unexploded ordinance that have interesting exhibits in the town on the war.
 <h3>Ponsavan to Luang Prabang, 259km</h3>
-[gallery ids="221,223,225"]
+{% picture wp/uploads/2013/08/IMG_20130715_111204.jpg %}
+{% picture wp/uploads/2013/08/IMG_20130718_143756.jpg %}
+{% picture wp/uploads/2013/08/IMG_20130716_083641.jpg %}
 
 The last long day of riding will take you 259 km from Ponsavan to Luang Prabang (backtracking to Pho Khoun, then north to Luang Prabang). Backtracking in this way isn't all that bad because the scenery and riding is so great heading from Pho Khoun to Ponsavan, you'll have no problem doing it twice.
 
@@ -58,4 +64,4 @@ Pho Khoun makes a good stopping place for lunch, as its about at the midpoint of
 
 <a href="http://wikitravel.org/en/Luang_Prabang">Luang Prabang</a> is a UNESCO World Heritage Site and has by far the best developed tourist infrastructure of the three cities we visited. Luang Prabang is at the intersection of the Mekong River and the Nam Khan River and has a large temple in the center of the city with great views of both rivers. There are waterfalls about 20km outside of town as well as rafting, elephant tours, and kayaking if you choose to stay here for a few days.
 
-[caption id="attachment_196" align="aligncenter" width="560"]<a href="http://andyfiedler.com/wp-content/uploads/2013/08/laos_ride_profile.png"><img class="size-large wp-image-196 " title="Elevation Profile" alt="Route: Vientiane - Vang Vieng- Pho Khoun - Ponsavan - Phou Khoun - Luang Prabang" src="http://andyfiedler.com/wp-content/uploads/2013/08/laos_ride_profile-1024x696.png" width="560" height="380" /></a> Elevation Profile: Vientiane - Vang Vieng - Pho Khoun - Ponsavan - Phou Khoun - Luang Prabang[/caption]
+{% picture wp/uploads/2013/08/laos_ride_profile.png %}

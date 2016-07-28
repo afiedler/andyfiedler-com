@@ -28,4 +28,4 @@ The documentation is a little sparse on examples of what the underlying data mod
 
 [See it live here](http://afiedler.github.io/draft-js-dm-demo/).
 
-[caption id="attachment_367" align="aligncenter" width="660"]<a href="http://andyfiedler.com/wp-content/uploads/2016/03/Screen-Shot-2016-03-11-at-12.43.01-PM.png" rel="attachment wp-att-367"><img src="http://andyfiedler.com/wp-content/uploads/2016/03/Screen-Shot-2016-03-11-at-12.43.01-PM-800x426.png" alt="Draft.js Data Model Demo Screenshot" width="660" height="351" class="size-large wp-image-367" /></a> Draft.js Data Model Demo[/caption]
+{% picture wp/uploads/2016/03/Screen-Shot-2016-03-11-at-12.43.01-PM.png %}

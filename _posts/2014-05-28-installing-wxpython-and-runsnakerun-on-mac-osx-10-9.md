@@ -22,7 +22,7 @@ I just <a title="The barebones profiling method that is surprisingly effective" 
 
 For that, RunSnakeRun worked really well. RunSnakeRun gives you a nice rectangle chart showing in which functions your program spends most of its time.
 
-[caption id="attachment_274" align="aligncenter" width="625"]<img class="wp-image-274 size-large" src="http://andyfiedler.com/wp-content/uploads/2014/05/Screen-Shot-2014-05-28-at-9.27.01-AM-800x499.png" alt="RunSnakeRun's rectangle plot of function cumulative run time" width="625" height="389" /> RunSnakeRun's rectangle plot of function cumulative run time[/caption]
+{% picture wp/uploads/2014/05/Screen-Shot-2014-05-28-at-9.27.01-AM-800x499.png %}
 
 To install RunSnakeRun on Mac OSX, you'll need Homebrew and PIP. You can install it like this:
 <pre class="lang:default highlight:0 decode:true crayon-selected" title="Bash commands to install RunSnakeRun">$ brew install wxpython --python --devel

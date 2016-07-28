@@ -26,7 +26,7 @@ InVision is a very simple online tool to create clickable prototypes. There are 
 
 The cool thing with the pair of InVision and Sketch is that you can just drag and drop your Sketch file into InVision, and InVision will create or <em>update</em> your screens. That means your revision workflow is very easy: make or update drawings in Sketch → save the file → drag the file to InVision.
 
-[caption id="attachment_301" align="aligncenter" width="602"]<a href="http://andyfiedler.com/wp-content/uploads/2015/03/Screen-Shot-2015-03-06-at-10.10.32-AM.png"><img class="size-full wp-image-301" src="http://andyfiedler.com/wp-content/uploads/2015/03/Screen-Shot-2015-03-06-at-10.10.32-AM.png" alt="You can drag and drop Sketch 3 files directly to InVision" width="602" height="175" /></a> You can drag and drop Sketch 3 files directly to InVision[/caption]
+{% picture wp/uploads/2015/03/Screen-Shot-2015-03-06-at-10.10.32-AM.png %}
 
 &nbsp;
 <h4>2) IPython, IRuby, Jupyter</h4>
@@ -34,6 +34,4 @@ If you have ever used a REPL and wished it had more of a GUI, you should definit
 
 It turns out that IPython is morphing into Jupyter, which aims to be language-agnostic. This could be very cool: think IPython for NodeJS, R, or other languages, and more front-ends that work with any language!
 
-[caption id="attachment_302" align="aligncenter" width="643"]<a href="http://andyfiedler.com/wp-content/uploads/2015/03/Screen-Shot-2015-03-06-at-10.14.12-AM.png"><img class="size-full wp-image-302" src="http://andyfiedler.com/wp-content/uploads/2015/03/Screen-Shot-2015-03-06-at-10.14.12-AM.png" alt="IRuby - a Ruby REPL on steroids" width="643" height="391" /></a> IRuby - a Ruby REPL on steroids[/caption]
-
-&nbsp;
+{% picture wp/uploads/2015/03/Screen-Shot-2015-03-06-at-10.14.12-AM.png %}

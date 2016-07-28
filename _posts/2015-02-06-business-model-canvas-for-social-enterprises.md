@@ -33,6 +33,6 @@ I added two new boxes to the traditional BMC to capture this. The first is <b>s
 
 This canvas worked well for us, so I wanted to share it in case anyone else is working on a similar problem. If you’ve applied Lean Startup methodologies to a social enterprise, or if this was helpful to you, please let me know in the comments.
 
-[caption id="attachment_293" align="aligncenter" width="625"]<a href="http://andyfiedler.com/wp-content/uploads/2015/02/Business-Model-Sketch-Social-Enterprise.png"><img class="wp-image-293 size-large" src="http://andyfiedler.com/wp-content/uploads/2015/02/Business-Model-Sketch-Social-Enterprise-800x518.png" alt="Business Model Canvas - Social Enterprise" width="625" height="405" /></a> Business Model Canvas for Social Enterprises[/caption]
+{% picture wp/uploads/2015/02/Business-Model-Sketch-Social-Enterprise.png %}
 
 You can also access a <a title="Google Drive Version" href="https://docs.google.com/drawings/d/1J6QyXw0Cjz6WdwU7IIA1YtqooPyOH0_FlLY9Vn1_LVc/edit?usp=sharing" target="_blank">version on Google Drive</a> or a <a title="Google Drive Version (Blank)" href="https://docs.google.com/drawings/d/1WG8nuo2RMbyxZ4ggdM0nChBXdZRbSnDgoO0KwpuxLdg/copy" target="_blank">blank version</a> (note: make a copy of the blank version to edit yourself).

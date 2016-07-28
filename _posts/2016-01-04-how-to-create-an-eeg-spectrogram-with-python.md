@@ -26,6 +26,7 @@ I recently got a [Neurosky Mindwave](http://www.amazon.com/NeuroSky-MindWave-Mob
 
 Busting out some of my rusty signal processing from college, I made a spectrogram from the EEG. Check it out!
 
-[caption id="attachment_355" align="aligncenter" width="731"]<a href="http://andyfiedler.com/wp-content/uploads/2016/01/eeg.png"><img src="http://andyfiedler.com/wp-content/uploads/2016/01/eeg.png" alt="EEG Spectrogram" width="731" height="281" class="size-full wp-image-355" /></a> EEG Spectrogram from Mindwave Mobile[/caption]
+{% picture wp/uploads/2016/01/eeg.png %}
+
 
 To check out how I made this, see this [IPython notebook](https://gist.github.com/afiedler/6e498d2981ea7b788b61). This is using Jupyter and Python 3, with data recorded using [node-thinkgear-sockets](https://github.com/afiedler/node-thinkgear-sockets).
