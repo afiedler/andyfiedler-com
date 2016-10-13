@@ -11,7 +11,7 @@ This assumes that you've merged your changes into `master`.
 
 ```
 # run from repo root
-# assumes you have the Github pages in ../afiedler (relative to the repo root)
+# assumes you have the Github pages in ../website (relative to the repo root)
 
 git status
 
@@ -19,12 +19,13 @@ git status
 
 jekyll build JEKYLL_ENV=production
 
-cp -r _site/* ../afiedler
-cd ../afiedler
+cp -r _site/* ../website
+cd ../website
+
+git branch # confirm on gh-pages
 
 git add .
 git commit -a -m 'update content'
 
-git push origin master
-cd ../website
+git push origin gh-pages
 ```
