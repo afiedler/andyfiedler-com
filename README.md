@@ -1,3 +1,10 @@
+# Preview
+```
+jekyll serve
+```
+
+Open browser to http://localhost:4000
+
 # Deploying
 
 This assumes that you've merged your changes into `master`.
