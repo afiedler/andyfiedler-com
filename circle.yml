@@ -14,5 +14,4 @@ deployment:
   production:
     branch: master
     commands:
-      - cd ./andyfiedler-com
-      - bash ./bin/automated
+      - bash ./andyfiedler-com/bin/automated
