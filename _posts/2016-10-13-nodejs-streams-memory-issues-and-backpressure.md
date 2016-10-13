@@ -25,3 +25,5 @@ The culprit in my case was `event-stream`, which is an old library that only mak
 
 Moral of the story: if you are having memory issues with streams that seem like backpressure
 should be solving, make sure all of the streams in your pipe are 0.10.x streams or greater!
+
+Test
