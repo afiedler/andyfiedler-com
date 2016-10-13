@@ -94,7 +94,7 @@ angular.module('myApp').factory('Product', function($resource) {
 
    function setFieldByPath(obj, path, value) {
       var paths = path.split('.');
-      vat setOn = obj;
+      var setOn = obj;
 
       for(var i = 0; i < paths.length - 1; i++) {
          var path = paths[i];
