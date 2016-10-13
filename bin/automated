@@ -5,7 +5,7 @@
 # Exit if any subcommand fails.
 set -e
 
-cd ./andyfiedler-com
+pwd
 
 # Variables
 ORIGIN_URL=https://github.com/afiedler/andyfiedler-com
