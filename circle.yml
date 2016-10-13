@@ -1,0 +1,13 @@
+machine:
+  ruby:
+    version: 2.2.2
+
+test:
+  post:
+    - bundle exec jekyll build
+
+deployment:
+  production:
+    branch: master
+    commands:
+      - ./bin/automated
