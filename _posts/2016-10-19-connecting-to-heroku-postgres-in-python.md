@@ -38,4 +38,4 @@ pd.read_sql_query('select id, email from users', con=engine)
 ```
 
 That will give you a nice table like this:
-
+{% picture pandas_jupyter.png %}
