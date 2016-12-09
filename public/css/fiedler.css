@@ -38,3 +38,10 @@ img.emoji {
   max-width: none;
   border: none;
 }
+
+/*
+ * Misc
+ */
+.clearfix {
+  overflow: auto;
+}

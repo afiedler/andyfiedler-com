@@ -21,6 +21,8 @@ for the first time.
 
 Below are my notes that I took while I read the book and after doing a design sprint myself.
 
+<div class="clearfix"></div>
+
 ### Notes After My First Design Sprint
 On Monday, the two most important outputs are **the business goal** and **the sprint question**. When I did this the
 first time through, we had a clear business goal, but a less-than-precise sprint question. It would have been better if
