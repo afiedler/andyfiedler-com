@@ -5,6 +5,15 @@ jekyll serve
 
 Open browser to http://localhost:4000
 
+# Adding Pictures
+See https://github.com/robwierzbowski/jekyll-picture-tag
+
+Examples:
+```
+{% picture book-covers/sprint.png [class="book-cover"] %}
+
+```
+
 # Deploying
 
 This assumes that you've merged your changes into `master`.
