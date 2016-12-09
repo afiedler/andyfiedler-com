@@ -126,26 +126,3 @@ tedious recaps. Also, written recaps for the team always loose some fidelity. So
 * Use the five act interview: 1) friendly intro, 2) open-ended context questions, 3) introduction to prototype, 4)
 detailed tasks to get the customer engaging with the prototype, 5) debrief
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
