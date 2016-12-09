@@ -2,7 +2,8 @@
 layout: page
 status: publish
 published: true
-title: Books
+on_sidebar: true
+title: Book Notes
 author:
   display_name: afiedler
   login: afiedler
@@ -17,3 +18,9 @@ date_gmt: '2012-06-25 16:18:07 -0400'
 categories: []
 tags: []
 ---
+
+## Design
+
+[Sprint: How to Solve Big Problems and Test New Ideas in Just Five Days](/book-notes/sprint) :star: :star: :star: :star: :star:
+
+

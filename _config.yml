@@ -6,6 +6,7 @@ gems:
   - jekyll-gist
   - jekyll-redirect-from
   - jekyll-picture-tag
+  - jemoji
 
 # Permalinks
 permalink:        '/:year/:month/:title'
@@ -15,7 +16,7 @@ permalink:        '/:year/:month/:title'
 title:            'Andy Fiedler'
 tagline:          ''
 description:      ''
-url:              
+url:
 baseurl:          /
 
 author:
@@ -62,6 +63,20 @@ picture:
       source_med:
         media: "(min-width: 30em)"
         width: 250
+      source_default:
+        width: 350
+    # Quarter-width pictures
+    quarter:
+      ppi: [1, 1.5]
+      attr:
+        data-location: "{{location}}"
+        data-active: nil
+      source_lrg:
+        media: "(min-width: 40em)"
+        width: 200
+      source_med:
+        media: "(min-width: 30em)"
+        width: 125
       source_default:
         width: 350
     # Self-set resolution sources. Useful if you don't want a 1:1 image size to dppx ratio.
