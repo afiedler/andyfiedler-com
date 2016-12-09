@@ -5,6 +5,7 @@ source 'https://rubygems.org'
 
 gem 'jekyll'
 gem 'jekyll-import'
+gem 'jemoji'
 gem 'jekyll-paginate'
 gem 'jekyll-picture-tag'
 gem 'jekyll-redirect-from'
