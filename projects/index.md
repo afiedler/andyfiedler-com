@@ -18,6 +18,7 @@ date_gmt: '2012-06-23 15:56:50 -0400'
 categories: []
 tags: []
 ---
-## [TsTables](/projects/tstables)
-Python library for storing large quantities of time series data in a flat file. This library extends
-PyTables and uses HDF5 as the underlying file format.
+## Open Source Libraries
+These are small open source libraries that I've written:
+* [memoized-decorator](https://github.com/afiedler/memoized-decorator) - ES7 decorator and memoization function for immutable data.
+* [TsTables](/projects/tstables) - Python library for storing large quantities of time series data in a flat file. This library extends PyTables and uses HDF5 as the underlying file format.
