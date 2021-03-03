@@ -2,15 +2,17 @@
 markdown:         kramdown
 highlighter:      rouge
 gems:
-  - jekyll-paginate
   - jekyll-gist
   - jekyll-redirect-from
-  - jekyll-picture-tag
   - jemoji
 
 # Permalinks
 permalink:        '/:year/:month/:title'
 # relative_permalinks: true
+
+# Plugins
+plugins:
+  - jekyll-paginate
 
 # Setup
 title:            'Andy Fiedler'
