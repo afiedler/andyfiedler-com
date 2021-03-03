@@ -1,3 +1,4 @@
+ruby '2.7.2'
 source 'https://rubygems.org'
 
 
@@ -14,5 +15,5 @@ gem 'jekyll-gist'
 gem 'rouge'
 
 group :jekyll_plugins do
-   gem 'jekyll_picture_tag', ~> '1'
+   gem 'jekyll_picture_tag'
 end
