@@ -1,5 +1,10 @@
 Last updated March 2, 2021
 
+## Monitors
+* M1 Macs [don't expose DDC/CI](https://discussions.apple.com/thread/252269130), so you [can't
+  use apps like MonitorControl](https://github.com/MonitorControl/MonitorControl/issues/323) to
+  change volume/brightness.
+
 ## Development
 
 ### Visual Studio Code
