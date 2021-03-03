@@ -1,6 +1,9 @@
-# Preview
+# Local Development
+
 ```
-jekyll serve
+brew install imagemagick
+bundle install
+bundle exec jekyll serve
 ```
 
 Open browser to http://localhost:4000
