@@ -14,7 +14,7 @@ GEM
     fastercsv (1.5.5)
     fastimage (1.6.8)
       addressable (~> 2.3, >= 2.3.5)
-    ffi (1.9.14)
+    ffi (1.12.2)
     forwardable-extended (2.6.0)
     gemoji (2.1.0)
     html-pipeline (2.4.2)
