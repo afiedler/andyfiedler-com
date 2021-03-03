@@ -5,7 +5,6 @@ gem 'jekyll'
 gem 'jekyll-import'
 gem 'jemoji'
 gem 'jekyll-paginate'
-gem 'jekyll-picture-tag'
 gem 'jekyll-redirect-from'
 gem 'jekyll-sass-converter'
 gem 'jekyll-watch'
@@ -13,3 +12,7 @@ gem 'kramdown'
 gem 'kramdown-parser-gfm'
 gem 'jekyll-gist'
 gem 'rouge'
+
+ group :jekyll_plugins do
+   gem 'jekyll_picture_tag', ~> '1'
+ end
