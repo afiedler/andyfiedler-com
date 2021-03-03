@@ -13,6 +13,6 @@ gem 'kramdown-parser-gfm'
 gem 'jekyll-gist'
 gem 'rouge'
 
- group :jekyll_plugins do
+group :jekyll_plugins do
    gem 'jekyll_picture_tag', ~> '1'
- end
+end
