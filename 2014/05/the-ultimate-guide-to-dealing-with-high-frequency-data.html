@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+  <head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="google-site-verification" content="-Dvab_6VGkQMicZl4INhBCLfzJs7AWMwuSpN8CmbjVA" />
+
+  <!-- Enable responsiveness on mobile devices-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>
+    
+      The Ultimate Guide to Dealing with High Frequency Data &middot; Andy Fiedler
+    
+  </title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/public/css/poole.css">
+  <link rel="stylesheet" href="/public/css/syntax.css">
+  <link rel="stylesheet" href="/public/css/hyde.css">
+  <link rel="stylesheet" href="/public/css/fiedler.css">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface">
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha256-3dkvEK0WLHRJ7/Csr0BZjAWxERc5WH7bdeUya2aXxdU= sha512-+L4yy6FRcDGbXJ9mPG8MT/3UCDzwR9gPeyFNMCtInsol++5m3bk2bXWKdZjvybmohrAsn3Ua5x8gfLnbE1YkOg==" crossorigin="anonymous">
+
+  <!-- Icons -->
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+
+  <!-- JS -->
+  <script>
+    // Picture element HTML5 shiv
+    document.createElement( "picture" );
+  </script>
+  <script async src="/public/js/picturefill.min.js"></script>
+</head>
+
+
+  <body>
+
+    <div class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <h1>
+        <a href="/">
+          Andy Fiedler
+        </a>
+      </h1>
+      <p class="lead"></p>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a class="sidebar-nav-item" href="/">Home</a>
+
+      
+
+      
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+            
+              <a class="sidebar-nav-item" href="/projects/">Projects</a>
+            
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+
+    </nav>
+
+    <div class="sidebar-footer">
+      <p>&copy; 2021 <a href="https://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC</a>.</p>
+    </div>
+  </div>
+</div>
+
+
+    <div class="content container">
+      <div class="post">
+  <h1 class="post-title">The Ultimate Guide to Dealing with High Frequency Data</h1>
+  <span class="post-date">07 May 2014</span>
+  <p>I have no idea if this is actually the ultimate guide to high frequency data, but hopefully it is at least a useful guide!</p>
+
+<p>I’m currently working on a project to replace the <a title="Time Series Database" href="http://andyfiedler.com/projects/time-series-database/">Time Series Database</a> (TSDB) that I wrote a few years ago. By re-writing it, I’m learning a lot about what works and what doesn’t when dealing with high frequency data. High frequency in this case means billions of records, with timestamp precision down to the millisecond. This data is being used for economic research and analytics, not live trading. It is a pain to deal with because it is simply too large to fit in memory or process with a standard relational database. These are some rules that I’ve developed while working on this project.</p>
+<h2>Partition your data!</h2>
+<p>The biggest issue with this much time series data is that you simply cannot index the timestamp column with any normal indexing scheme. In DB-speak, the timestamp column will be a <a title="Cardinality (Wikipedia)" href="http://en.wikipedia.org/wiki/Cardinality_(SQL_statements)" target="_blank">“high cardinality”</a> column, which means it does not lend itself well to indexing. This is a problem because most queries on this kind of high frequency data are to fetch a subset by timestamp, and you do NOT want to make a table scan of a billion plus records to find a few minutes of data.</p>
+
+<p>TSDB attempts to fix this problem by keeping rows in order and creating a <a title="Dense versus Sparse Indexes" href="http://www.cs.sfu.ca/CourseCentral/354/zaiane/material/notes/Chapter11/node5.html" target="_blank">sparse index</a> (an index on every 20,000 rows). This should work in theory, but you must ensure that your rows are always sequential. That makes inserting or updating difficult, because you potentially need to shift rows to maintain the order. Also, I’m not aware of a relational database that lets you create a sparse index, which rules out the most common and best understood data stores.</p>
+
+<p>Another approach is to <em>partition</em> your data. This is my current approach. The way this works is you simply create multiple tables for set time periods (one table per day or month is a good starting point). You then put records that match those time periods in their respective tables and write some logic to union queries across tables.</p>
+
+<p>Partitioning enables the database to hunt through a subset of rows to find the ones that match your query. Both Postgres and MySQL support partitioning, making them viable options for storing time series data. The library that I’m working on will use <a title="PyTables" href="http://pytables.github.io" target="_blank">PyTables</a> to partition time series data by date.</p>
+<h2>Store timestamps in UTC</h2>
+<p>Most of the time, your source data will have timestamps in UTC. If it doesn’t, I suggest you convert to UTC before storing. Most libraries use either UTC or local time internally, and because you can never be sure what time zone your users will be in, using UTC is the least common denominator.</p>
+
+<p>UTC also has the nice property of not having daylight saving time changes. DST causes all sorts of pain when working with 24/7 data. Avoid it by just dealing in UTC internally, and then converting to other timezones for querying or display.</p>
+<h2>Store timestamps as integers, even if your programming language uses floats</h2>
+<p>MATLAB, Excel, and R all store timestamps internally as floats by default. This gives their timestamp types a large range and high precision, but I don’t think it is appropriate for archiving time series data. Why? Floats are imprecise. You do not know with any accuracy the number of significant digits when using a float, and you cannot make comparisons without worrying about round off errors. Admittedly, even with microsecond data, these systems that use a 64-bit double and 1970-01-01 as the epoch will not loose precision until <span style="color: #000000;">2242-03-16, but why worry about it? I recommend a 64-bit integer as the timestamp column. With one tick equaling one millisecond, you have a time range of <span style="color: #252525;">±</span><span style="color: #252525;">292 million years. This is Java’s internal representation. With one tick equaling 100 nanoseconds (0.1 microsecond), you have a time range of ±29,227 years, which is what Win32 does. Should be plenty!</span></span></p>
+<h2>Have a solid ETL procedure</h2>
+<p>ETL means “extract, transform, load” and is the term for taking data out of one format or system and loading it into another. The step to make sure is solid when you are dealing with high frequency data is the “load” step. Try to make a process where you can revert a botched load automatically. If you don’t do this, guaranteed someone or something will screw up an import, and you will be left wading through millions of rows of data to fix it or re-importing everything from your source system.</p>
+
+<p>The most basic way to make the load step revertible is to just make a copy of your time series before writing anything to it. You could devise a more sophisticated process, like using rsync to make diffs of your time series, but be nice to your future self and make backups at the very least!</p>
+
+</div>
+
+<div class="related">
+  <h2>Related Posts</h2>
+  <ul class="related-posts">
+    
+      <li>
+        <h3>
+          <a href="/2021/03/mac-m1-gotchas">
+            Mac M1 Gotchas
+            <small>02 Mar 2021</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2020/06/useful-command-line-tools">
+            Useful Command Line Tools
+            <small>01 Jun 2020</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2017/01/mongodb-stream-to-hapi">
+            Streaming Hapi Responses with MongoDB
+            <small>10 Jan 2017</small>
+          </a>
+        </h3>
+      </li>
+    
+  </ul>
+</div>
+
+    </div>
+
+    
+      <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-25710888-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+    
+  </body>
+</html>

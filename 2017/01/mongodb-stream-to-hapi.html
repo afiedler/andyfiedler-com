@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+  <head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="google-site-verification" content="-Dvab_6VGkQMicZl4INhBCLfzJs7AWMwuSpN8CmbjVA" />
+
+  <!-- Enable responsiveness on mobile devices-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>
+    
+      Streaming Hapi Responses with MongoDB &middot; Andy Fiedler
+    
+  </title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/public/css/poole.css">
+  <link rel="stylesheet" href="/public/css/syntax.css">
+  <link rel="stylesheet" href="/public/css/hyde.css">
+  <link rel="stylesheet" href="/public/css/fiedler.css">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface">
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha256-3dkvEK0WLHRJ7/Csr0BZjAWxERc5WH7bdeUya2aXxdU= sha512-+L4yy6FRcDGbXJ9mPG8MT/3UCDzwR9gPeyFNMCtInsol++5m3bk2bXWKdZjvybmohrAsn3Ua5x8gfLnbE1YkOg==" crossorigin="anonymous">
+
+  <!-- Icons -->
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+
+  <!-- JS -->
+  <script>
+    // Picture element HTML5 shiv
+    document.createElement( "picture" );
+  </script>
+  <script async src="/public/js/picturefill.min.js"></script>
+</head>
+
+
+  <body>
+
+    <div class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <h1>
+        <a href="/">
+          Andy Fiedler
+        </a>
+      </h1>
+      <p class="lead"></p>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a class="sidebar-nav-item" href="/">Home</a>
+
+      
+
+      
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+            
+              <a class="sidebar-nav-item" href="/projects/">Projects</a>
+            
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+
+    </nav>
+
+    <div class="sidebar-footer">
+      <p>&copy; 2021 <a href="https://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC</a>.</p>
+    </div>
+  </div>
+</div>
+
+
+    <div class="content container">
+      <div class="post">
+  <h1 class="post-title">Streaming Hapi Responses with MongoDB</h1>
+  <span class="post-date">10 Jan 2017</span>
+  <p>Let’s say you are implementing a REST endpoint that lists a collection. Normally, you’d paginate the endpoint with a
+maximum page size of say 25 items to avoid memory issues. You’d return something like this example, and if the client
+wants more than one page, it would need to make more than one request:</p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w"> </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="nl">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Item 1"</span><span class="w"> </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w"> </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="nl">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Item 2"</span><span class="w"> </span><span class="p">}</span><span class="w">
+  </span><span class="p">],</span><span class="w">
+  </span><span class="nl">"pages"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"current"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"prev"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"hasPrev"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"next"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"hasNext"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"total"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nl">"items"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"perPage"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"begin"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"end"</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"total"</span><span class="p">:</span><span class="w"> </span><span class="mi">9</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<p>This can be a real pain for clients to deal with, especially if the client knows it wants <em>everything</em>. With NodeJS,
+you may be able to greatly increase the maximum page size or eliminate it completely with streams. This is because
+with streams you don’t need to buffer the entire response before sending it. You can send the response piece by piece,
+greatly reducing the memory demands on the server.</p>
+
+<p>If you are using MongoDB, you can get a streaming response from the database like this:</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">mongoStream</span> <span class="o">=</span> <span class="nx">db</span><span class="p">.</span><span class="nx">collection</span><span class="p">(</span><span class="dl">'</span><span class="s1">items</span><span class="dl">'</span><span class="p">).</span><span class="nx">find</span><span class="p">({}).</span><span class="nx">stream</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p>This will be an <code class="language-plaintext highlighter-rouge">objectMode</code> stream, with each object one document from your MongoDB collection. HapiJS also supports
+streaming responses like this:</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Within your handler</span>
+<span class="k">return</span> <span class="nx">reply</span><span class="p">(</span><span class="nx">responseStream</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>HapiJS response streams should be in binary mode or in <code class="language-plaintext highlighter-rouge">objectMode</code> emitting strings. You can’t just connect your
+MongoDB stream to HapiJS because you need to construct a valid JSON object so the client can parse it. To do that, you
+can pipe your MongoDB stream through a <code class="language-plaintext highlighter-rouge">Transform</code> stream that takes in MongoDB documents and emits a JSON object piece
+by piece that will look like the response above. Here’s an example of a stream that does that:</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// PaginationStream.js</span>
+<span class="kd">const</span> <span class="nx">Transform</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">stream</span><span class="dl">'</span><span class="p">).</span><span class="nx">Transform</span><span class="p">;</span>
+<span class="kd">const</span> <span class="nx">assert</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">assert</span><span class="dl">'</span><span class="p">);</span>
+
+<span class="kd">class</span> <span class="nx">PaginationStream</span> <span class="kd">extends</span> <span class="nx">Transform</span> <span class="p">{</span>
+  <span class="cm">/**
+   * Create a PaginationStream
+   * @param page {Number} which page of data will be streamed through
+        (starting with 1)
+   * @param perPage {Number} how many objects are returned per page
+        (&gt;= 0; if 0, then return all objects)
+   * @param total {Number} the total number of results (&gt;= 0)
+   */</span>
+  <span class="kd">constructor</span><span class="p">(</span><span class="nx">page</span><span class="p">,</span> <span class="nx">perPage</span><span class="p">,</span> <span class="nx">total</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">assert</span><span class="p">(</span><span class="nx">page</span> <span class="o">&gt;=</span> <span class="mi">1</span> <span class="p">,</span> <span class="dl">'</span><span class="s1">page should be &gt;= 1</span><span class="dl">'</span><span class="p">);</span>
+    <span class="nx">assert</span><span class="p">(</span><span class="nx">perPage</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">,</span> <span class="dl">'</span><span class="s1">perPage should be &gt;= 0</span><span class="dl">'</span><span class="p">);</span>
+    <span class="nx">assert</span><span class="p">(</span><span class="nx">total</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">,</span> <span class="dl">'</span><span class="s1">total should be &gt;= 0</span><span class="dl">'</span><span class="p">);</span>
+    <span class="k">super</span><span class="p">({</span> <span class="na">objectMode</span><span class="p">:</span> <span class="kc">true</span> <span class="p">});</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">page</span> <span class="o">=</span> <span class="nx">page</span><span class="p">;</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">perPage</span> <span class="o">=</span> <span class="nx">perPage</span><span class="p">;</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">total</span> <span class="o">=</span> <span class="nx">total</span><span class="p">;</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">count</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">perPageReached</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="nx">_transform</span><span class="p">(</span><span class="nx">data</span><span class="p">,</span> <span class="nx">encoding</span><span class="p">,</span> <span class="nx">callback</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">perPageReached</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="nx">callback</span><span class="p">(</span>
+        <span class="k">new</span> <span class="nb">Error</span><span class="p">(</span><span class="dl">'</span><span class="s1">pagination page limit already reached</span><span class="dl">'</span><span class="p">)</span>
+      <span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">count</span> <span class="o">===</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="dl">'</span><span class="s1">{</span><span class="se">\n</span><span class="s1">  "data":[</span><span class="dl">'</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="k">this</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">data</span><span class="p">,</span> <span class="kc">null</span><span class="p">,</span> <span class="mi">2</span><span class="p">));</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">count</span><span class="o">++</span><span class="p">;</span>
+
+    <span class="c1">// When we reach the limit or the total number of objects, emit an</span>
+    <span class="c1">// end of array marker and the pagination object</span>
+    <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">_isEndOfPage</span><span class="p">())</span> <span class="p">{</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">perPageReached</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+      <span class="kd">const</span> <span class="nx">pagination</span> <span class="o">=</span> <span class="nx">PaginationStream</span><span class="p">.</span><span class="nx">_paginationObject</span><span class="p">(</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">page</span><span class="p">,</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">total</span><span class="p">,</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">perPage</span>
+      <span class="p">);</span>
+      <span class="kd">const</span> <span class="nx">paginationJson</span> <span class="o">=</span> <span class="nx">JSON</span>
+        <span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">pagination</span><span class="p">,</span> <span class="kc">null</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/^{/</span><span class="p">,</span> <span class="dl">''</span><span class="p">);</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="dl">'</span><span class="s1">], </span><span class="dl">'</span><span class="p">);</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">paginationJson</span><span class="p">);</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="dl">'</span><span class="s1">,</span><span class="dl">'</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="nx">callback</span><span class="p">();</span>
+  <span class="p">}</span>
+
+  <span class="nx">_isEndOfPage</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">perPage</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+      <span class="c1">// Has a per-page limit if perPage &gt; 0</span>
+      <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">count</span> <span class="o">===</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">min</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">total</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">perPage</span><span class="p">);</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+      <span class="c1">// No per-page limit if perPage === 0</span>
+      <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">count</span> <span class="o">===</span> <span class="k">this</span><span class="p">.</span><span class="nx">total</span><span class="p">;</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+
+  <span class="cm">/**
+   * Returns a pagination object
+   * @param page {Number} current page number
+   * @param total {Number} total number of objects
+   * @param perPage {Number} number of objects per page
+   * @private
+   */</span>
+  <span class="kd">static</span> <span class="nx">_paginationObject</span><span class="p">(</span><span class="nx">page</span><span class="p">,</span> <span class="nx">total</span><span class="p">,</span> <span class="nx">perPage</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">const</span> <span class="nx">countNum</span> <span class="o">=</span> <span class="nx">perPage</span> <span class="o">===</span> <span class="mi">0</span> <span class="p">?</span> <span class="nx">total</span> <span class="p">:</span> <span class="nx">perPage</span><span class="p">,</span>
+      <span class="nx">begin</span> <span class="o">=</span> <span class="p">(</span><span class="nx">page</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="nx">countNum</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
+      <span class="nx">end</span> <span class="o">=</span> <span class="p">(</span><span class="nx">page</span> <span class="o">*</span> <span class="nx">countNum</span><span class="p">)</span> <span class="o">&gt;</span> <span class="nx">total</span> <span class="p">?</span> <span class="nx">total</span> <span class="p">:</span> <span class="p">(</span><span class="nx">page</span> <span class="o">*</span> <span class="nx">countNum</span><span class="p">);</span>
+
+    <span class="k">return</span> <span class="p">{</span>
+      <span class="na">pages</span><span class="p">:</span> <span class="p">{</span>
+        <span class="na">current</span><span class="p">:</span> <span class="nx">page</span><span class="p">,</span>
+        <span class="na">prev</span><span class="p">:</span> <span class="nx">page</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="na">hasPrev</span><span class="p">:</span> <span class="nx">page</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="na">next</span><span class="p">:</span> <span class="nx">page</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="na">hasNext</span><span class="p">:</span> <span class="nx">total</span> <span class="o">&gt;</span> <span class="nx">end</span><span class="p">,</span>
+        <span class="na">total</span><span class="p">:</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">ceil</span><span class="p">(</span><span class="nx">total</span> <span class="o">/</span> <span class="nx">countNum</span><span class="p">)</span>
+      <span class="p">},</span>
+      <span class="na">items</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nx">perPage</span><span class="p">,</span>
+        <span class="nx">begin</span><span class="p">,</span>
+        <span class="nx">end</span><span class="p">,</span>
+        <span class="nx">total</span>
+      <span class="p">}</span>
+    <span class="p">};</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="nx">PaginationStream</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p>You can use these streams together like this:</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">total</span> <span class="o">=</span> <span class="nx">db</span><span class="p">.</span><span class="nx">collection</span><span class="p">(</span><span class="dl">'</span><span class="s1">items</span><span class="dl">'</span><span class="p">).</span><span class="nx">find</span><span class="p">({}).</span><span class="nx">count</span><span class="p">();</span>
+<span class="kd">const</span> <span class="nx">mongoStream</span> <span class="o">=</span> <span class="nx">db</span><span class="p">.</span><span class="nx">collection</span><span class="p">(</span><span class="dl">'</span><span class="s1">items</span><span class="dl">'</span><span class="p">).</span><span class="nx">find</span><span class="p">({}).</span><span class="nx">stream</span><span class="p">();</span>
+<span class="kd">const</span> <span class="nx">paginationStream</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">PaginationStream</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">total</span><span class="p">);</span>
+
+<span class="k">return</span> <span class="nx">reply</span><span class="p">(</span><span class="nx">mongoStream</span><span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">paginationStream</span><span class="p">));</span>
+</code></pre></div></div>
+
+<p>This is pretty good, but if the response is large, we really need to gzip it. Luckily, Node provides a GZip stream that
+we can use.</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">db</span><span class="p">.</span><span class="nx">collection</span><span class="p">(</span><span class="dl">'</span><span class="s1">items</span><span class="dl">'</span><span class="p">).</span><span class="nx">find</span><span class="p">({}).</span><span class="nx">count</span><span class="p">((</span><span class="nx">err</span><span class="p">,</span> <span class="nx">total</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">mongoStream</span> <span class="o">=</span> <span class="nx">db</span><span class="p">.</span><span class="nx">collection</span><span class="p">(</span><span class="dl">'</span><span class="s1">items</span><span class="dl">'</span><span class="p">).</span><span class="nx">find</span><span class="p">({}).</span><span class="nx">stream</span><span class="p">();</span>
+  <span class="kd">const</span> <span class="nx">paginationStream</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">PaginationStream</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">total</span><span class="p">);</span>
+  <span class="kd">const</span> <span class="nx">gzipStream</span> <span class="o">=</span> <span class="nx">createGzip</span><span class="p">();</span>
+
+  <span class="kd">const</span> <span class="nx">stream</span> <span class="o">=</span> <span class="nx">mongoStream</span><span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">paginationStream</span><span class="p">).</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">gzipStream</span><span class="p">);</span>
+
+  <span class="k">return</span> <span class="nx">reply</span><span class="p">(</span><span class="nx">stream</span><span class="p">).</span><span class="nx">header</span><span class="p">(</span><span class="dl">'</span><span class="s1">content-encoding</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">gzip</span><span class="dl">'</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p>There are a few edge cases that we need to deal with, though:</p>
+<ol>
+  <li>If your response is taking a really long time, the user could close the tab of the browser which would close the
+socket. If the socket is closed, we need to stop the stream both to save resources and because the gzip stream will emit
+an error if we try to send data to it after the socket closes.</li>
+  <li>There could be some kind of MongoDB error mid-stream (unlikely, but I’ll show you how to handle it anyway)</li>
+</ol>
+
+<p>To handle these edge cases, we’ll attach error handlers to the streams and log the errors. Whenever an error handler is
+attached to a stream, Node will assume the application is dealing with the error. If there is no error handler on a
+stream, any error in the stream causes the process to quit like an unhandled exception.</p>
+
+<p>Here’s the code with error handlers added. Maybe there is a more concise way just trapping all errors, but this is what
+is working for me:</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">db</span><span class="p">.</span><span class="nx">collection</span><span class="p">(</span><span class="dl">'</span><span class="s1">items</span><span class="dl">'</span><span class="p">).</span><span class="nx">find</span><span class="p">({}).</span><span class="nx">count</span><span class="p">((</span><span class="nx">err</span><span class="p">,</span> <span class="nx">total</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">mongoStream</span> <span class="o">=</span> <span class="nx">db</span><span class="p">.</span><span class="nx">collection</span><span class="p">(</span><span class="dl">'</span><span class="s1">items</span><span class="dl">'</span><span class="p">).</span><span class="nx">find</span><span class="p">({}).</span><span class="nx">stream</span><span class="p">();</span>
+  <span class="nx">mongoStream</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="dl">'</span><span class="s1">error</span><span class="dl">'</span><span class="p">,</span> <span class="nx">err</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">request</span><span class="p">.</span><span class="nx">log</span><span class="p">([</span><span class="dl">'</span><span class="s1">warn</span><span class="dl">'</span><span class="p">],</span> <span class="p">{</span> <span class="na">stream</span><span class="p">:</span> <span class="dl">'</span><span class="s1">mongo</span><span class="dl">'</span><span class="p">,</span> <span class="nx">err</span> <span class="p">});</span>
+  <span class="p">});</span>
+
+  <span class="kd">const</span> <span class="nx">paginationStream</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">PaginationStream</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">total</span><span class="p">);</span>
+  <span class="nx">paginationStream</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="dl">'</span><span class="s1">error</span><span class="dl">'</span><span class="p">,</span> <span class="nx">err</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">request</span><span class="p">.</span><span class="nx">log</span><span class="p">([</span><span class="dl">'</span><span class="s1">warn</span><span class="dl">'</span><span class="p">],</span> <span class="p">{</span> <span class="na">stream</span><span class="p">:</span> <span class="dl">'</span><span class="s1">pagination</span><span class="dl">'</span><span class="p">,</span> <span class="nx">err</span> <span class="p">});</span>
+    <span class="nx">mongoStream</span><span class="p">.</span><span class="nx">close</span><span class="p">();</span>
+  <span class="p">});</span>
+
+  <span class="kd">const</span> <span class="nx">gzipStream</span> <span class="o">=</span> <span class="nx">createGzip</span><span class="p">();</span>
+  <span class="nx">paginationStream</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="dl">'</span><span class="s1">error</span><span class="dl">'</span><span class="p">,</span> <span class="nx">err</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">request</span><span class="p">.</span><span class="nx">log</span><span class="p">([</span><span class="dl">'</span><span class="s1">warn</span><span class="dl">'</span><span class="p">],</span> <span class="p">{</span> <span class="na">stream</span><span class="p">:</span> <span class="dl">'</span><span class="s1">gzip</span><span class="dl">'</span><span class="p">,</span> <span class="nx">err</span> <span class="p">});</span>
+  <span class="p">});</span>
+
+  <span class="c1">// Handle the browser cancelling the request</span>
+  <span class="nx">request</span><span class="p">.</span><span class="nx">raw</span><span class="p">.</span><span class="nx">req</span><span class="p">.</span><span class="nx">once</span><span class="p">(</span><span class="dl">'</span><span class="s1">close</span><span class="dl">'</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">request</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span>
+    <span class="p">[</span><span class="dl">'</span><span class="s1">debug</span><span class="dl">'</span><span class="p">],</span>
+    <span class="p">{</span>
+      <span class="na">msg</span><span class="p">:</span> <span class="dl">'</span><span class="s1">stream closed due to client cancellation</span><span class="dl">'</span>
+    <span class="p">});</span>
+    <span class="k">return</span> <span class="nx">mongoStream</span><span class="p">.</span><span class="nx">close</span><span class="p">();</span>
+  <span class="p">});</span>
+
+  <span class="kd">const</span> <span class="nx">stream</span> <span class="o">=</span> <span class="nx">mongoStream</span><span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">paginationStream</span><span class="p">).</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">gzipStream</span><span class="p">);</span>
+
+  <span class="k">return</span> <span class="nx">reply</span><span class="p">(</span><span class="nx">stream</span><span class="p">).</span><span class="nx">header</span><span class="p">(</span><span class="dl">'</span><span class="s1">content-encoding</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">gzip</span><span class="dl">'</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p>There you go! MongoDB streaming HTTP requests using Hapi. A few other things to keep in mind:</p>
+<ul>
+  <li>You need to change the Mongo <code class="language-plaintext highlighter-rouge">.find()</code> and <code class="language-plaintext highlighter-rouge">.count()</code> calls to also implement your pagination logic. You should use
+<code class="language-plaintext highlighter-rouge">.sort()</code>, <code class="language-plaintext highlighter-rouge">.seek()</code> and <code class="language-plaintext highlighter-rouge">.limit()</code> to only return one page of data from the database. If you return more than a page of
+data, PaginatedStream will emit an error event.</li>
+  <li>When using streaming responses, the headers are sent as soon as the first bit of data comes down the stream. There is
+no way to change the headers after data has been sent, so you <em>cannot</em> change the HTTP status code of the response if
+there is an error mid-stream. I might do another post on some strategies to deal with that issue later.</li>
+</ul>
+
+
+</div>
+
+<div class="related">
+  <h2>Related Posts</h2>
+  <ul class="related-posts">
+    
+      <li>
+        <h3>
+          <a href="/2021/03/mac-m1-gotchas">
+            Mac M1 Gotchas
+            <small>02 Mar 2021</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2020/06/useful-command-line-tools">
+            Useful Command Line Tools
+            <small>01 Jun 2020</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2016/10/connecting-to-heroku-postgres-in-python">
+            Connecting to Heroku Postgres in Python
+            <small>19 Oct 2016</small>
+          </a>
+        </h3>
+      </li>
+    
+  </ul>
+</div>
+
+    </div>
+
+    
+      <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-25710888-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+    
+  </body>
+</html>

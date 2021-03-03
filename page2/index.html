@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+  <head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="google-site-verification" content="-Dvab_6VGkQMicZl4INhBCLfzJs7AWMwuSpN8CmbjVA" />
+
+  <!-- Enable responsiveness on mobile devices-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>
+    
+      Andy Fiedler &middot; 
+    
+  </title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/public/css/poole.css">
+  <link rel="stylesheet" href="/public/css/syntax.css">
+  <link rel="stylesheet" href="/public/css/hyde.css">
+  <link rel="stylesheet" href="/public/css/fiedler.css">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface">
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha256-3dkvEK0WLHRJ7/Csr0BZjAWxERc5WH7bdeUya2aXxdU= sha512-+L4yy6FRcDGbXJ9mPG8MT/3UCDzwR9gPeyFNMCtInsol++5m3bk2bXWKdZjvybmohrAsn3Ua5x8gfLnbE1YkOg==" crossorigin="anonymous">
+
+  <!-- Icons -->
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+
+  <!-- JS -->
+  <script>
+    // Picture element HTML5 shiv
+    document.createElement( "picture" );
+  </script>
+  <script async src="/public/js/picturefill.min.js"></script>
+</head>
+
+
+  <body>
+
+    <div class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <h1>
+        <a href="/">
+          Andy Fiedler
+        </a>
+      </h1>
+      <p class="lead"></p>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a class="sidebar-nav-item" href="/">Home</a>
+
+      
+
+      
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+            
+              <a class="sidebar-nav-item" href="/projects/">Projects</a>
+            
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+
+    </nav>
+
+    <div class="sidebar-footer">
+      <p>&copy; 2021 <a href="https://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC</a>.</p>
+    </div>
+  </div>
+</div>
+
+
+    <div class="content container">
+      <div class="posts">
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/2016/08/learning-react-as-an-angular-js-developer">
+        Learning React as an AngularJS Developer
+      </a>
+    </h1>
+
+    <span class="post-date">18 Aug 2016</span>
+
+    <h2 id="react-isnt-a-framework">React isn’t a framework</h2>
+
+<p>You use Angular, so you probably like frameworks. React and redux are <em>not</em> frameworks in the same sense as Angular. You can use <a href="https://github.com/davezuko/react-redux-starter-kit">React Redux Starter Kit</a> and/or <a href="https://github.com/SpencerCDixon/redux-cli">Redux CLI</a> to get a React/Redux app set up with some sensible defaults, though.</p>
+
+<h3 id="replacements-for-other-parts-of-angular">Replacements for other parts of Angular</h3>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">$http</code> – <a href="https://github.com/mzabriskie/axios">axios</a></li>
+  <li>Factories and services – ES6 modules with Webpack</li>
+  <li>Mocking modules (or in Angular, services or factories) in your tests – <a href="https://github.com/speedskater/babel-plugin-rewire">babel-plugin-rewire</a></li>
+</ul>
+
+<h2 id="understand-the-component-lifecycle-methods">Understand the component lifecycle methods</h2>
+
+<p>Best resource I’ve found is <a href="http://busypeoples.github.io/post/react-component-lifecycle/">Understanding the React Component Lifecycle</a></p>
+
+<h2 id="get-a-good-authentication-library">Get a good authentication library</h2>
+
+<p>I recommend <a href="redux-auth-wrapper">redux-auth-wrapper</a>.</p>
+
+  </div>
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/2016/04/a-better-patch-method-for-angulars-ngresource">
+        A Better $patch Method for Angular's ngResource
+      </a>
+    </h1>
+
+    <span class="post-date">16 Apr 2016</span>
+
+    <p>Angular’s ngResource makes a pretty decent starting point for developing a front-end model layer, but tends to be a little simplistic as your backend API gets more sophisticated.</p>
+
+<p>One issue I ran into recently is that the <code class="language-plaintext highlighter-rouge">$patch</code> method sends the entire object in the request body. This is usually not what you want to do, because the PATCH method is <a href="https://tools.ietf.org/html/rfc5789">designed for a partial resource modification</a>, typically using something like <a href="https://tools.ietf.org/html/rfc7386">JSON Merge Patch</a> or <a href="https://tools.ietf.org/html/rfc6902">JSON Patch</a> as the request body.</p>
+
+<p>Here’s how to add a <code class="language-plaintext highlighter-rouge">$patchFields</code> method to your resource that creates a JSON Merge Patch for a set of fields, and then sends it to the backend.</p>
+
+<p>This is how you’d use it:</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">product</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Product</span><span class="p">({</span>
+   <span class="na">id</span><span class="p">:</span> <span class="mi">231</span>
+   <span class="na">name</span><span class="p">:</span> <span class="dl">'</span><span class="s1">iPad</span><span class="dl">'</span><span class="p">,</span>
+   <span class="na">price</span><span class="p">:</span> <span class="mf">429.99</span><span class="p">,</span>
+   <span class="na">size</span><span class="p">:</span> <span class="p">{</span>
+      <span class="na">height</span><span class="p">:</span> <span class="mf">9.4</span><span class="p">,</span>
+      <span class="na">width</span><span class="p">:</span> <span class="mf">6.2</span><span class="p">,</span>
+      <span class="na">depth</span><span class="p">:</span> <span class="mf">0.2</span>
+   <span class="p">}</span>
+<span class="p">});</span>
+
+<span class="nx">product</span><span class="p">.</span><span class="nx">price</span> <span class="o">=</span> <span class="mi">400</span><span class="p">;</span>
+<span class="nx">product</span><span class="p">.</span><span class="nx">size</span><span class="p">.</span><span class="nx">height</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
+
+<span class="kd">var</span> <span class="nx">promise</span> <span class="o">=</span> <span class="nx">product</span><span class="p">.</span><span class="nx">$patchFields</span><span class="p">([</span><span class="dl">'</span><span class="s1">price</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">size.height</span><span class="dl">'</span><span class="p">]);</span>
+
+<span class="cm">/*
+ * Sends a request like this:
+ * PATCH http://api.example.com/products/231
+ * {
+ *    "price": 400,
+ *    "size": {
+ *       "height": 10
+ *    }
+ * }
+ *
+ */</span>
+</code></pre></div></div>
+
+<p>And here’s the code:</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">angular</span><span class="p">.</span><span class="nx">module</span><span class="p">(</span><span class="dl">'</span><span class="s1">myApp</span><span class="dl">'</span><span class="p">).</span><span class="nx">factory</span><span class="p">(</span><span class="dl">'</span><span class="s1">Product</span><span class="dl">'</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">$resource</span><span class="p">)</span> <span class="p">{</span>
+
+   <span class="kd">var</span> <span class="nx">Product</span> <span class="o">=</span> <span class="nx">$resource</span><span class="p">(</span>
+      <span class="dl">'</span><span class="s1">http://api.example.com/products/:id</span><span class="dl">'</span><span class="p">,</span>
+      <span class="p">{</span> <span class="na">id</span><span class="p">:</span> <span class="dl">'</span><span class="s1">id</span><span class="dl">'</span> <span class="p">}</span>
+   <span class="p">);</span>
+
+   <span class="nx">angular</span><span class="p">.</span><span class="nx">extend</span><span class="p">(</span><span class="nx">Product</span><span class="p">.</span><span class="nx">prototype</span><span class="p">,</span> <span class="p">{</span>
+      <span class="dl">'</span><span class="s1">$patchFields</span><span class="dl">'</span><span class="p">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">fields</span><span class="p">,</span> <span class="nx">success</span><span class="p">,</span> <span class="nx">error</span><span class="p">)</span> <span class="p">{</span>
+         <span class="kd">var</span> <span class="nb">self</span> <span class="o">=</span> <span class="k">this</span><span class="p">;</span>
+         <span class="nx">patch</span> <span class="o">=</span> <span class="nb">self</span><span class="p">.</span><span class="nx">generatePatch</span><span class="p">(</span><span class="nx">fields</span><span class="p">);</span>
+         <span class="kd">var</span> <span class="nx">result</span> <span class="o">=</span> <span class="nx">Product</span><span class="p">.</span><span class="nx">patch</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span>
+            <span class="k">this</span><span class="p">,</span>
+            <span class="p">{</span> <span class="na">id</span><span class="p">:</span> <span class="nb">self</span><span class="p">.</span><span class="nx">id</span> <span class="p">},</span>
+            <span class="nx">patch</span><span class="p">,</span>
+            <span class="nx">success</span><span class="p">,</span>
+            <span class="nx">error</span>
+         <span class="p">);</span>
+         <span class="k">return</span> <span class="nx">result</span><span class="p">.</span><span class="nx">$promise</span> <span class="o">||</span> <span class="nx">result</span><span class="p">;</span>
+      <span class="p">},</span>
+      <span class="na">generatePatch</span><span class="p">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">fields</span><span class="p">)</span> <span class="p">{</span>
+         <span class="kd">var</span> <span class="nb">self</span> <span class="o">=</span> <span class="k">this</span><span class="p">;</span>
+         <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="nx">angular</span><span class="p">.</span><span class="nx">isArray</span><span class="p">(</span><span class="nx">fields</span><span class="p">))</span> <span class="p">{</span>
+            <span class="nx">fields</span> <span class="o">=</span> <span class="p">[</span> <span class="nx">fields</span> <span class="p">];</span>
+         <span class="p">}</span>
+
+         <span class="k">return</span> <span class="nx">fields</span><span class="p">.</span><span class="nx">reduce</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">result</span><span class="p">,</span> <span class="nx">fields</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">setFieldByPath</span><span class="p">(</span><span class="nx">result</span><span class="p">,</span> <span class="nx">field</span><span class="p">,</span> <span class="nb">self</span><span class="p">.</span><span class="nx">getFieldByPath</span><span class="p">(</span><span class="nx">field</span><span class="p">));</span>
+            <span class="k">return</span> <span class="nx">result</span><span class="p">;</span>
+         <span class="p">},</span> <span class="p">{});</span>
+      <span class="p">},</span>
+      <span class="na">getFieldByPath</span><span class="p">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">path</span><span class="p">)</span> <span class="p">{</span>
+         <span class="kd">var</span> <span class="nx">ret</span> <span class="o">=</span> <span class="nx">angular</span><span class="p">.</span><span class="nx">toJson</span><span class="p">(</span><span class="nx">json</span><span class="p">);</span>
+         <span class="kd">var</span> <span class="nx">paths</span> <span class="o">=</span> <span class="nx">path</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="dl">'</span><span class="s1">.</span><span class="dl">'</span><span class="p">);</span>
+         <span class="k">for</span><span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">paths</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="o">++</span><span class="nx">i</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if</span><span class="p">(</span><span class="nx">angular</span><span class="p">.</span><span class="nx">isUndefined</span><span class="p">(</span><span class="nx">ret</span><span class="p">[</span><span class="nx">paths</span><span class="p">[</span><span class="nx">i</span><span class="p">]]))</span> <span class="p">{</span>
+               <span class="k">return</span> <span class="kc">undefined</span><span class="p">;</span>
+            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+               <span class="nx">ret</span> <span class="o">=</span> <span class="nx">ret</span><span class="p">[</span><span class="nx">paths</span><span class="p">[</span><span class="nx">i</span><span class="p">]];</span>
+            <span class="p">}</span>
+         <span class="p">}</span>
+         <span class="k">return</span> <span class="nx">ret</span><span class="p">;</span>
+      <span class="p">}</span>
+   <span class="p">});</span>
+
+   <span class="kd">function</span> <span class="nx">setFieldByPath</span><span class="p">(</span><span class="nx">obj</span><span class="p">,</span> <span class="nx">path</span><span class="p">,</span> <span class="nx">value</span><span class="p">)</span> <span class="p">{</span>
+      <span class="kd">var</span> <span class="nx">paths</span> <span class="o">=</span> <span class="nx">path</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="dl">'</span><span class="s1">.</span><span class="dl">'</span><span class="p">);</span>
+      <span class="kd">var</span> <span class="nx">setOn</span> <span class="o">=</span> <span class="nx">obj</span><span class="p">;</span>
+
+      <span class="k">for</span><span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">paths</span><span class="p">.</span><span class="nx">length</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+         <span class="kd">var</span> <span class="nx">path</span> <span class="o">=</span> <span class="nx">paths</span><span class="p">[</span><span class="nx">i</span><span class="p">];</span>
+         <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="nx">angular</span><span class="p">.</span><span class="nx">isUndefined</span><span class="p">(</span><span class="nx">setOn</span><span class="p">[</span><span class="nx">path</span><span class="p">]))</span> <span class="p">{</span>
+            <span class="k">if</span><span class="p">(</span>
+               <span class="nx">angular</span><span class="p">.</span><span class="nx">isObject</span><span class="p">(</span><span class="nx">setOn</span><span class="p">[</span><span class="nx">path</span><span class="p">])</span> <span class="o">&amp;&amp;</span>
+               <span class="o">!</span><span class="nx">angular</span><span class="p">.</span><span class="nx">isArray</span><span class="p">(</span><span class="nx">setOn</span><span class="p">[</span><span class="nx">path</span><span class="p">])</span>
+            <span class="p">)</span> <span class="p">{</span>
+               <span class="nx">setOn</span> <span class="o">=</span> <span class="nx">setOn</span><span class="p">[</span><span class="nx">path</span><span class="p">];</span>
+            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+               <span class="k">throw</span> <span class="k">new</span> <span class="nb">Error</span><span class="p">(</span>
+                  <span class="dl">'</span><span class="s1">Path </span><span class="dl">'</span> <span class="o">+</span>
+                  <span class="nx">path</span> <span class="o">+</span>
+                  <span class="dl">'</span><span class="s1"> has an item that is not an object</span><span class="dl">'</span>
+               <span class="p">);</span>
+            <span class="p">}</span>
+         <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="nx">setOn</span><span class="p">[</span><span class="nx">path</span><span class="p">]</span> <span class="o">=</span> <span class="p">{};</span>
+            <span class="nx">setOn</span> <span class="o">=</span> <span class="nx">setOn</span><span class="p">[</span><span class="nx">path</span><span class="p">];</span>
+         <span class="p">}</span>
+      <span class="p">}</span>
+
+      <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="nx">angular</span><span class="p">.</span><span class="nx">isFunction</span><span class="p">(</span><span class="nx">setOn</span><span class="p">[</span><span class="nx">paths</span><span class="p">[</span><span class="nx">paths</span><span class="p">.</span><span class="nx">length</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]]))</span> <span class="p">{</span>
+         <span class="nx">setOn</span><span class="p">[</span><span class="nx">paths</span><span class="p">[</span><span class="nx">paths</span><span class="p">.</span><span class="nx">length</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]]</span> <span class="o">=</span> <span class="nx">value</span><span class="p">;</span>
+      <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+         <span class="k">throw</span> <span class="k">new</span> <span class="nb">Error</span><span class="p">(</span>
+            <span class="dl">'</span><span class="s1">Cannot set value at </span><span class="dl">'</span> <span class="o">+</span>
+            <span class="nx">path</span> <span class="o">+</span>
+            <span class="dl">'</span><span class="s1"> since it would overwrite a function</span><span class="dl">'</span>
+         <span class="p">);</span>
+      <span class="p">}</span>
+   <span class="p">}</span>
+
+   <span class="k">return</span> <span class="nx">Product</span><span class="p">;</span>
+
+<span class="p">});</span>
+</code></pre></div></div>
+
+  </div>
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/2016/04/testing-angular-q-promises">
+        Testing Angular $q Promises
+      </a>
+    </h1>
+
+    <span class="post-date">12 Apr 2016</span>
+
+    <p>This is a quick reference to testing Angular’s <code class="language-plaintext highlighter-rouge">$q</code> promises.</p>
+
+<table>
+   <caption>Values of <code>promise.$$state.status</code></caption>
+   <thead>
+      <tr>
+         <th>Value</th>
+         <th>State</th>
+      </tr>
+   </thead>
+   <tbody>
+      <tr>
+         <td><code>0</code></td>
+         <td>Outstanding</td>
+      </tr>
+      <tr>
+         <td><code>1</code></td>
+         <td>Resolved</td>
+      </tr>
+      <tr>
+         <td><code>2</code></td>
+         <td>Rejected</td>
+      </tr>
+   </tbody>
+</table>
+
+  </div>
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/2016/03/using-jupyter-for-exploring-a-heroku-database">
+        Using Jupyter for Exploring a Heroku Database
+      </a>
+    </h1>
+
+    <span class="post-date">25 Mar 2016</span>
+
+    <p>If you want to establish a connection to a Heroku database and import data into Jupyter for some analysis, here’s some boilerplate to help:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Python 3
+</span><span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="kn">import</span> <span class="n">create_engine</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+<span class="kn">import</span> <span class="nn">subprocess</span>
+
+<span class="n">DATABASE_URL</span> <span class="o">=</span> <span class="n">subprocess</span><span class="p">.</span><span class="n">check_output</span><span class="p">(</span><span class="s">"heroku config:get DATABASE_URL --app &lt;your heroku app name here&gt;"</span><span class="p">,</span> <span class="n">shell</span><span class="o">=</span><span class="bp">True</span><span class="p">).</span><span class="n">decode</span><span class="p">(</span><span class="s">'utf-8'</span><span class="p">)</span>
+<span class="n">engine</span> <span class="o">=</span> <span class="n">create_engine</span><span class="p">(</span><span class="n">DATABASE_URL</span><span class="p">)</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">read_sql_query</span><span class="p">(</span>
+    <span class="s">'''
+SELECT * FROM my_table;
+    '''</span><span class="p">,</span>
+    <span class="n">con</span><span class="o">=</span><span class="n">engine</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>Now you have <code class="language-plaintext highlighter-rouge">result</code>, which is a Pandas DataFrame. Happy data exploration!</p>
+
+<p><strong>Note:</strong> It probably goes without saying this is a <strong>bad idea</strong> to do on a production system. You should use a read-only replica for running queries in production, or use a dump of the database loaded onto another server.</p>
+
+  </div>
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/2016/03/draft-js-data-model-demo">
+        Draft.js Data Model Demo
+      </a>
+    </h1>
+
+    <span class="post-date">11 Mar 2016</span>
+
+    <p>Facebook released a very interesting <a href="https://facebook.github.io/draft-js/">React-based rich text editor called Draft.js</a>. The advantage of something like is that you have much more control over the data model for structured documents.</p>
+
+<p>The documentation is a little sparse on examples of what the underlying data model looks like, so I build this quick demo that renders the data model in JSON.</p>
+
+<p><a href="http://afiedler.github.io/draft-js-dm-demo/">See it live here</a>.</p>
+
+<p><img src="/generated/wp/uploads/2016/03/Screen-Shot-2016-03-11-at-12.43.01-PM-800-e11796616.png" srcset="/generated/wp/uploads/2016/03/Screen-Shot-2016-03-11-at-12.43.01-PM-400-e11796616.png 400w, /generated/wp/uploads/2016/03/Screen-Shot-2016-03-11-at-12.43.01-PM-600-e11796616.png 600w, /generated/wp/uploads/2016/03/Screen-Shot-2016-03-11-at-12.43.01-PM-800-e11796616.png 800w, /generated/wp/uploads/2016/03/Screen-Shot-2016-03-11-at-12.43.01-PM-1000-e11796616.png 1000w" /></p>
+
+
+  </div>
+  
+</div>
+
+<div class="pagination">
+  
+    <a class="pagination-item older" href="/page3">Older</a>
+  
+  
+    
+      <a class="pagination-item newer" href="/">Newer</a>
+    
+  
+</div>
+    </div>
+
+    
+      <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-25710888-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+    
+  </body>
+</html>

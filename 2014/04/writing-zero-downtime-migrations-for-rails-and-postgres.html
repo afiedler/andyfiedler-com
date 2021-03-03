@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+  <head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="google-site-verification" content="-Dvab_6VGkQMicZl4INhBCLfzJs7AWMwuSpN8CmbjVA" />
+
+  <!-- Enable responsiveness on mobile devices-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>
+    
+      Writing Zero-Downtime Migrations for Rails and Postgres &middot; Andy Fiedler
+    
+  </title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/public/css/poole.css">
+  <link rel="stylesheet" href="/public/css/syntax.css">
+  <link rel="stylesheet" href="/public/css/hyde.css">
+  <link rel="stylesheet" href="/public/css/fiedler.css">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface">
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha256-3dkvEK0WLHRJ7/Csr0BZjAWxERc5WH7bdeUya2aXxdU= sha512-+L4yy6FRcDGbXJ9mPG8MT/3UCDzwR9gPeyFNMCtInsol++5m3bk2bXWKdZjvybmohrAsn3Ua5x8gfLnbE1YkOg==" crossorigin="anonymous">
+
+  <!-- Icons -->
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+
+  <!-- JS -->
+  <script>
+    // Picture element HTML5 shiv
+    document.createElement( "picture" );
+  </script>
+  <script async src="/public/js/picturefill.min.js"></script>
+</head>
+
+
+  <body>
+
+    <div class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <h1>
+        <a href="/">
+          Andy Fiedler
+        </a>
+      </h1>
+      <p class="lead"></p>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a class="sidebar-nav-item" href="/">Home</a>
+
+      
+
+      
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+            
+              <a class="sidebar-nav-item" href="/projects/">Projects</a>
+            
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+
+    </nav>
+
+    <div class="sidebar-footer">
+      <p>&copy; 2021 <a href="https://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC</a>.</p>
+    </div>
+  </div>
+</div>
+
+
+    <div class="content container">
+      <div class="post">
+  <h1 class="post-title">Writing Zero-Downtime Migrations for Rails and Postgres</h1>
+  <span class="post-date">18 Apr 2014</span>
+  <p>Let’s suppose you are building an app. It is under heavy development and the dev team is cranking out new features left and right. Developers need to continually change the database schema, but you don’t want to take down the app for database migrations if at all possible. How the heck do you do this with Rails?</p>
+
+<p>We had this problem recently, and have come up with a procedure that solves it for most small database migrations. The goals of this procedure are to:</p>
+<ul>
+	<li>Avoid downtime by running database migrations while the app is live</li>
+	<li>Avoid too many separate deployments to production</li>
+	<li>Keep the application code as clean as possible</li>
+	<li>Balance the cost of additional coding with the benefit of having a zero-downtime migration. If the cost or complexity of coding a migration in this way is too great, then a maintenance window is scheduled and the migration is written in a non-zero downtime fashion.</li>
+</ul>
+<p>The first thing to understand when writing a zero downtime migration is what types of Postgres data definition language (DDL) queries can be run without locking tables. As of Postgres 9.3, the following DDL queries can be run without locking a table:</p>
+<pre class="toolbar:2 nums:false nums-toggle:false lang:pgsql decode:true">CREATE INDEX CONCURRENTLY</pre>
+<p style="padding-left: 30px;">Postgres can create indexes concurrently (without table locks) in most cases. <code>CREATE INDEX CONCURRENTLY</code> can take significantly longer than <code>CREATE INDEX</code>, but it will allow both reads and writes while the index is being generated.</p>
+
+<pre class="toolbar:2 nums:false nums-toggle:false lang:pgsql decode:true">ALTER TABLE ... ADD COLUMN -- certain cases only!</pre>
+<p style="padding-left: 30px;">You can add a column to a table without a table lock if the column being added is nullable and has no default value or other constraints.</p>
+<p style="padding-left: 30px;">If you want to add a column with a constraint or a column with a default value, one option may be to add the column first without a default value and no constraint, then in a separate transaction set the default value (using <code>UPDATE</code>)  or use <code>CREATE INDEX CONCURRENTLY</code> to add a index that will be used for the constraint. Finally, a third transaction can add the constraint or default to the table. If the third transaction is adding a constraint that uses an existing index, no table scan is required.</p>
+
+<pre class="toolbar:2 nums:false nums-toggle:false lang:pgsql decode:true">ALTER TABLE ... DROP COLUMN</pre>
+<p style="padding-left: 30px;">Dropping a column only results in a metadata change, so it is non-blocking. When the table is <code>VACUUMED</code>, the data is actually removed.</p>
+
+<pre class="toolbar:2 nums:false nums-toggle:false lang:pgsql decode:true">CREATE TABLE, CREATE FUNCTION</pre>
+<p style="padding-left: 30px;">Creating a table or a function is obviously safe because no one will have a lock on these objects before they are created.</p>
+
+<h2>Process for Coding the Migration</h2>
+<p>The guidelines I have been using for writing a zero-downtime migration are to:</p>
+<ul>
+	<li><strong>Step 1: </strong>Write the database migration in Rails.</li>
+	<li><strong>Step 2: </strong>Modify the application code in such a way that it will work both before and after the migration has been applied (more details on this below). This will probably entail writing code that branches depending on that database state.</li>
+	<li><strong>Step 3: </strong>Run your test suite with the modified code in step 2<i> but before you apply the database migration!</i></li>
+	<li><strong>Step 4: </strong>Run your test suite with the modified code in step 2 <em>after applying the database migration</em>. Tests should pass in both cases.</li>
+	<li><strong>Step 5: </strong>Create a pull request on Github (or the equivalent in whatever tool you are using). Tag this in such a way that whoever is reviewing your code knows that there is a database migration that needs careful review.</li>
+	<li><strong>Step 6: </strong>Create a separate pull request on Github that cleans up the branching code you wrote in step 2. The code you write in this step can assume that the DB is migrated.</li>
+</ul>
+<p>When the migration is deployed, you’ll deploy first the code reviewed in step 5. This code will be running against the non-migrated database, but that is a-ok because you have tested that case in step 3. Next, you will run the migration “live”. Once the migration is applied, you will still be running the code reviewed in step 5, but against the migrated database. Again, this is fine because you have tested that in step 4.<strong>
+</strong></p>
+
+<p>Finally, once the production database has been migrated, you should merge your pull request from step 6. This eliminates the dead code supporting the unmigrated version of the database. You should write the code for step 6 at the same time you write the rest of this code. Then just leave the pull request open until you are ready to merge. The advantage of this is that you will be “cleaning up” the extraneous code while it is still fresh in your mind.</p>
+<h2>Branching Application Code to Support Multiple DB States</h2>
+<p>The key to making this strategy work is that you’ll need to write you application code in step 2 in a way that supports two database states: the pre-migrated state and the post-migrated state. The way to do this is to check the database state in the models and branch accordingly.</p>
+
+<p>Suppose you are dropping a column called “deleted”. Prior to dropping the column, you have a default scope that excludes deleted rows. After dropping the column, you want the default scope to include all rows.</p>
+
+<p>You would code a migration to do that like this:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">DropDeletedFromPosts</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Migration</span>
+   <span class="k">def</span> <span class="nf">up</span>
+     <span class="n">drop_column</span> <span class="ss">:posts</span><span class="p">,</span> <span class="ss">:deleted</span>
+   <span class="k">end</span>
+
+   <span class="k">def</span> <span class="nf">down</span>
+      <span class="n">add_column</span> <span class="ss">:posts</span><span class="p">,</span> <span class="ss">:boolean</span><span class="p">,</span> <span class="ss">:deleted</span><span class="p">,</span> <span class="ss">default: </span><span class="kp">false</span><span class="p">,</span> <span class="ss">null: </span><span class="kp">false</span>
+   <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<p>Then, in your Post model, you’d add branching like this:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Post</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+
+   <span class="c1"># TODO: Remove this code after the DropDeletedFromPosts migration has</span>
+   <span class="c1"># been applied.</span>
+   <span class="k">if</span> <span class="no">Post</span><span class="p">.</span><span class="nf">attribute_names</span><span class="p">.</span><span class="nf">include?</span> <span class="s1">'deleted'</span>
+      <span class="n">default_scope</span> <span class="o">-&gt;</span> <span class="p">{</span> <span class="n">where</span><span class="p">(</span><span class="ss">deleted: </span><span class="kp">false</span><span class="p">)</span> <span class="p">}</span>
+   <span class="k">end</span>
+
+   <span class="c1"># Other model code here ...</span>
+
+<span class="k">end</span>
+</code></pre></div></div>
+
+<h3> But doesn't this get complicated for larger migrations?</h3>
+<p>Yes, absolutely it does. What we do when branching like this and it gets too complicated, we either sequence the DB changes over multiple deployments (and multiple sprints in the Agile sense) or “give up” and schedule a maintenance window (downtime) to do the change.</p>
+
+<p>Writing zero-downtime migrations is not easy, and you’ll need to do a cost-benefit analysis between scheduling downtime and writing lots of hairy branching code to support a zero-downtime deploy. That decision will depend on how downtime impacts your customers and your development schedule.</p>
+
+<p>Hopefully, if you decide to go the zero-downtime route, this procedure will make your life easier!</p>
+
+</div>
+
+<div class="related">
+  <h2>Related Posts</h2>
+  <ul class="related-posts">
+    
+      <li>
+        <h3>
+          <a href="/2021/03/mac-m1-gotchas">
+            Mac M1 Gotchas
+            <small>02 Mar 2021</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2020/06/useful-command-line-tools">
+            Useful Command Line Tools
+            <small>01 Jun 2020</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2017/01/mongodb-stream-to-hapi">
+            Streaming Hapi Responses with MongoDB
+            <small>10 Jan 2017</small>
+          </a>
+        </h3>
+      </li>
+    
+  </ul>
+</div>
+
+    </div>
+
+    
+      <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-25710888-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+    
+  </body>
+</html>

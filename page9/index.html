@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+  <head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="google-site-verification" content="-Dvab_6VGkQMicZl4INhBCLfzJs7AWMwuSpN8CmbjVA" />
+
+  <!-- Enable responsiveness on mobile devices-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>
+    
+      Andy Fiedler &middot; 
+    
+  </title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/public/css/poole.css">
+  <link rel="stylesheet" href="/public/css/syntax.css">
+  <link rel="stylesheet" href="/public/css/hyde.css">
+  <link rel="stylesheet" href="/public/css/fiedler.css">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface">
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha256-3dkvEK0WLHRJ7/Csr0BZjAWxERc5WH7bdeUya2aXxdU= sha512-+L4yy6FRcDGbXJ9mPG8MT/3UCDzwR9gPeyFNMCtInsol++5m3bk2bXWKdZjvybmohrAsn3Ua5x8gfLnbE1YkOg==" crossorigin="anonymous">
+
+  <!-- Icons -->
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+
+  <!-- JS -->
+  <script>
+    // Picture element HTML5 shiv
+    document.createElement( "picture" );
+  </script>
+  <script async src="/public/js/picturefill.min.js"></script>
+</head>
+
+
+  <body>
+
+    <div class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <h1>
+        <a href="/">
+          Andy Fiedler
+        </a>
+      </h1>
+      <p class="lead"></p>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a class="sidebar-nav-item" href="/">Home</a>
+
+      
+
+      
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+            
+              <a class="sidebar-nav-item" href="/projects/">Projects</a>
+            
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+
+    </nav>
+
+    <div class="sidebar-footer">
+      <p>&copy; 2021 <a href="https://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC</a>.</p>
+    </div>
+  </div>
+</div>
+
+
+    <div class="content container">
+      <div class="posts">
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/2014/05/installing-wxpython-and-runsnakerun-on-mac-osx-10-9">
+        Installing WxPython and RunSnakeRun on Mac OSX 10.9
+      </a>
+    </h1>
+
+    <span class="post-date">28 May 2014</span>
+
+    <p>I just <a title="The barebones profiling method that is surprisingly effective" href="http://andyfiedler.com/blog/the-barebones-profiling-method-that-is-surprisingly-effective-272/">posted about my Ctrl-C strategy for profiling</a> and now I’m going to completely flip-flop and explain how I installed RunSnakeRun, a way to visualize the output of Python’s cProfile. The Ctrl-C way of profiling worked really well for optimizing append performance of my <a title="TsTables Github" href="http://github.com/afiedler/tstables" target="_blank">time series storage library</a>, but doesn’t work so great for profiling things that are already very fast (on the order of milliseconds) and need to be faster.</p>
+
+<p>For that, RunSnakeRun worked really well. RunSnakeRun gives you a nice rectangle chart showing in which functions your program spends most of its time.</p>
+
+<p><img src="/generated/wp/uploads/2014/05/Screen-Shot-2014-05-28-at-9.27.01-AM-800x499-800-aa93d5bb2.png" srcset="/generated/wp/uploads/2014/05/Screen-Shot-2014-05-28-at-9.27.01-AM-800x499-400-aa93d5bb2.png 400w, /generated/wp/uploads/2014/05/Screen-Shot-2014-05-28-at-9.27.01-AM-800x499-600-aa93d5bb2.png 600w, /generated/wp/uploads/2014/05/Screen-Shot-2014-05-28-at-9.27.01-AM-800x499-800-aa93d5bb2.png 800w" /></p>
+
+<p>To install RunSnakeRun on Mac OSX, you’ll need Homebrew and PIP. You can install it like this:</p>
+<pre class="lang:default highlight:0 decode:true crayon-selected" title="Bash commands to install RunSnakeRun">$ brew install wxpython --python --devel
+$ pip install SquareMap RunSnakeRun</pre>
+<p>Next, you’ll need to export a pstats database with your profiler information. Use cProfile to do this. For TsTables, you can run the benchmark with profiling information like this:</p>
+<pre class="lang:python decode:true " title="How to run the TsTables benchmark with profiling information">import cProfile
+import tstables
+
+cProfile.run('tstables.Benchmark.main()','tstables.profile')</pre>
+<p>This will create a tstables.profile file in the current directory, which you can open with RunSnakeRun. Start RunSnakeRun by running <span class="lang:default highlight:0 decode:true  crayon-inline ">runsnake</span>  (assuming that PIP’s bin folder is in your path).</p>
+
+  </div>
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/2014/05/the-barebones-profiling-method-that-is-surprisingly-effective">
+        The barebones profiling method that is surprisingly effective
+      </a>
+    </h1>
+
+    <span class="post-date">27 May 2014</span>
+
+    <p>I’m working on profiling my time series database (<a title="TsTables" href="http://github.com/afiedler/tstables" target="_blank">TsTables</a>) because append performance is not what I want it to be. I know that the issue is a few loops that are written in Python instead of using NumPy’s optimized vector operations. I’m not exactly sure which loop is the slowest.</p>
+
+<p>I started trying to get cProfile to work, but ended up with way too much data to be useful. So I reverted to my old school, barebones profiling method: Ctrl-C.</p>
+
+<p>How do you use this method you might ask? Start your program and randomly hit Ctrl-C. Wherever your program stops most frequently is the probably the slowest part. Speed that up and repeat!</p>
+
+  </div>
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/2014/05/two-podcasts-ive-been-enjoying-recently">
+        Two Podcasts I've been Enjoying Recently
+      </a>
+    </h1>
+
+    <span class="post-date">21 May 2014</span>
+
+    <p>Since I’ve moved offices to <a href="http://www.wework.com/location/chinatown/" target="_blank">WeWork Chinatown</a>, I have about a 20 minute commute on Metro. The nice thing about commutes is that you have some downtime, which recently I’ve been using to listen to podcasts.  If you’re looking for podcast recommendations, two good ones are Monocle’s <em>The Entrepreneurs</em> and the <em>Tim Ferriss Show</em>.</p>
+
+<p><a title="Monocle - The Entrepreneurs" href="http://monocle.com/radio/shows/the-entrepreneurs/" target="_blank"><em>The Entrepreneurs</em></a> kind of makes you feel like you are listening to BBC’s World Service or NPR, but the content is focused on business and entrepreneurship. It has a refreshing international and non-technology bent, which is great for getting out of the U.S. technology world and realizing that every new business doesn’t need to be a website started in San Francisco!</p>
+
+<p>The <a title="Tim Ferriss Show" href="http://www.stitcher.com/podcast/tim-ferriss-show/the-tim-ferriss-show" target="_blank"><em>Tim Ferriss Show</em></a> is by the author of the <em>Four Hour Body </em>and <em>Four Hour</em> <em>Workweek</em>, both NY Times bestsellers. The format is much longer than <em>The Entrepreneurs,</em> and is more of a conversation than a highly-produced magazine-style show. There are only a few episodes of this one, but so far the guests have been very interesting and Tim does a good job interviewing them in depth.</p>
+
+  </div>
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/2014/05/the-ultimate-guide-to-dealing-with-high-frequency-data">
+        The Ultimate Guide to Dealing with High Frequency Data
+      </a>
+    </h1>
+
+    <span class="post-date">07 May 2014</span>
+
+    <p>I have no idea if this is actually the ultimate guide to high frequency data, but hopefully it is at least a useful guide!</p>
+
+<p>I’m currently working on a project to replace the <a title="Time Series Database" href="http://andyfiedler.com/projects/time-series-database/">Time Series Database</a> (TSDB) that I wrote a few years ago. By re-writing it, I’m learning a lot about what works and what doesn’t when dealing with high frequency data. High frequency in this case means billions of records, with timestamp precision down to the millisecond. This data is being used for economic research and analytics, not live trading. It is a pain to deal with because it is simply too large to fit in memory or process with a standard relational database. These are some rules that I’ve developed while working on this project.</p>
+<h2>Partition your data!</h2>
+<p>The biggest issue with this much time series data is that you simply cannot index the timestamp column with any normal indexing scheme. In DB-speak, the timestamp column will be a <a title="Cardinality (Wikipedia)" href="http://en.wikipedia.org/wiki/Cardinality_(SQL_statements)" target="_blank">“high cardinality”</a> column, which means it does not lend itself well to indexing. This is a problem because most queries on this kind of high frequency data are to fetch a subset by timestamp, and you do NOT want to make a table scan of a billion plus records to find a few minutes of data.</p>
+
+<p>TSDB attempts to fix this problem by keeping rows in order and creating a <a title="Dense versus Sparse Indexes" href="http://www.cs.sfu.ca/CourseCentral/354/zaiane/material/notes/Chapter11/node5.html" target="_blank">sparse index</a> (an index on every 20,000 rows). This should work in theory, but you must ensure that your rows are always sequential. That makes inserting or updating difficult, because you potentially need to shift rows to maintain the order. Also, I’m not aware of a relational database that lets you create a sparse index, which rules out the most common and best understood data stores.</p>
+
+<p>Another approach is to <em>partition</em> your data. This is my current approach. The way this works is you simply create multiple tables for set time periods (one table per day or month is a good starting point). You then put records that match those time periods in their respective tables and write some logic to union queries across tables.</p>
+
+<p>Partitioning enables the database to hunt through a subset of rows to find the ones that match your query. Both Postgres and MySQL support partitioning, making them viable options for storing time series data. The library that I’m working on will use <a title="PyTables" href="http://pytables.github.io" target="_blank">PyTables</a> to partition time series data by date.</p>
+<h2>Store timestamps in UTC</h2>
+<p>Most of the time, your source data will have timestamps in UTC. If it doesn’t, I suggest you convert to UTC before storing. Most libraries use either UTC or local time internally, and because you can never be sure what time zone your users will be in, using UTC is the least common denominator.</p>
+
+<p>UTC also has the nice property of not having daylight saving time changes. DST causes all sorts of pain when working with 24/7 data. Avoid it by just dealing in UTC internally, and then converting to other timezones for querying or display.</p>
+<h2>Store timestamps as integers, even if your programming language uses floats</h2>
+<p>MATLAB, Excel, and R all store timestamps internally as floats by default. This gives their timestamp types a large range and high precision, but I don’t think it is appropriate for archiving time series data. Why? Floats are imprecise. You do not know with any accuracy the number of significant digits when using a float, and you cannot make comparisons without worrying about round off errors. Admittedly, even with microsecond data, these systems that use a 64-bit double and 1970-01-01 as the epoch will not loose precision until <span style="color: #000000;">2242-03-16, but why worry about it? I recommend a 64-bit integer as the timestamp column. With one tick equaling one millisecond, you have a time range of <span style="color: #252525;">±</span><span style="color: #252525;">292 million years. This is Java’s internal representation. With one tick equaling 100 nanoseconds (0.1 microsecond), you have a time range of ±29,227 years, which is what Win32 does. Should be plenty!</span></span></p>
+<h2>Have a solid ETL procedure</h2>
+<p>ETL means “extract, transform, load” and is the term for taking data out of one format or system and loading it into another. The step to make sure is solid when you are dealing with high frequency data is the “load” step. Try to make a process where you can revert a botched load automatically. If you don’t do this, guaranteed someone or something will screw up an import, and you will be left wading through millions of rows of data to fix it or re-importing everything from your source system.</p>
+
+<p>The most basic way to make the load step revertible is to just make a copy of your time series before writing anything to it. You could devise a more sophisticated process, like using rsync to make diffs of your time series, but be nice to your future self and make backups at the very least!</p>
+
+  </div>
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/2014/04/the-business-model-sketch">
+        The Business Model Sketch
+      </a>
+    </h1>
+
+    <span class="post-date">22 Apr 2014</span>
+
+    <p>I was helping a friend work through some business ideas, and realized that like writing an outline helps you structure a essay, doing a “business model sketch” can help you break apart a business idea and evaluate its viability. Just like an essay needs a thesis, a body and a conclusion or it can fall flat, a business model needs specific components or it is not viable. I identified six components that roughly draw from <a title="The Personal MBA by Joshua Kaufman at Amazon" href="http://www.amazon.com/The-Personal-MBA-Master-Business/dp/1591845572" target="_blank">The Personal MBA</a> and the “lean startup” philosophy. If you are thinking of starting a new business, consider taking one page of paper, drawing six boxes, and filling out these six areas: customer, value proposition, marketing, sales, value delivery, and finance.</p>
+
+<p>The problem with many business ideas is that, while they sometimes hit on a few of these areas, they are weak in others. That can be okay, but as a startup, your goal should be to develop a plan about how to address your idea’s weak points, and quickly test whether that plan is viable. If it is, great! If not, reconsider or proceed with caution!</p>
+<h2>The template</h2>
+<h3>The customer</h3>
+<p>The specific person to whom value is being provided <strong>and is making a purchasing decision</strong>. Many times a business’s value proposition will include many people. For example, if you are selling family vacations, your business is offering value to the father (maybe you bundle in a few rounds of golf), mother (there’s a reason cruises have spas), and kids (I don’t think Disney pays actors to dress as Micky Mouse for dad). This is important to understand, especially when you get to the value delivery portion of the business model sketch. However, first identify the decision maker!</p>
+<h3>Value proposition</h3>
+<p>The value proposition is a description of the value you are providing your customer. Remember that your customer is the person making the purchasing decision, so when crafting your value proposition, you need to understand the wants and needs of that particular person above any secondary party.</p>
+
+<p>Ideally, focus your value proposition on addressing core human drives. The Personal MBA identifies <a href="http://book.personalmba.com/core-human-drives/" target="_blank">five core human drives</a>: the drives to acquire, bond, learn, defend, and feel. Many consumer products clearly target their value propositions to these core human drives. This can be difficult if you are not selling consumer products or services, but if you look closely, many business-to-business or business-to-government sales are targeted the same way. Living in Washington, DC I notice this every time I go through the Pentagon metro station. Large defense contractors clearly target their buyer’s core human drive to defend with advertisements that depict the strength and sophistication of their offerings. This example of <a href="http://www.huffingtonpost.com/2013/09/06/drone-ads-dc-metro_n_3880026.html" target="_blank">advertisements for Northrop Grumman’s unmanned drones</a> is a great example.</p>
+<h3>Marketing</h3>
+<p>Marketing is fundamentally your strategy for getting your customer’s attention to deliver your value proposition. When you create a business model sketch, you need to attempt to identify how you will reach enough customers at an economical cost. If you have an excellent value proposition but your customers do not know about it, your business model will fail.</p>
+
+<p>In the marketing portion of your sketch, you should also attempt to identify in rough terms the market size and dynamics: how many potential customers do you have and is that number increasing and/or gaining purchasing power?</p>
+<h3>Sales</h3>
+<p>If marketing is your strategy for reaching your target customer, sales is your strategy for negotiating a contract to deliver your value proposition in exchange for money. For an online business, this could be as simple as “sign up for PayPal and put a Buy Now button on my website”. If you are an enterprise software, this could be extensive contract negotiations.</p>
+
+<p>Sales and marketing are closely intertwined, but separating them out to different boxes in the business model sketch should help you to separate the <em>act of reaching your customer and delivering your value proposition</em> (marketing) and <em>the mechanics of “closing the deal”</em> (sales).</p>
+<h3>Value delivery</h3>
+<p>This is what many people think of as the meat of your business model, but the previous sections are also key to determining its viability. Value delivery is the processes that delivery the promised value to your customers. In the family vacation example, this is the operations of your hotel from hiring staff to procuring food and drinks for the restaurant. If you are an online business, this is the cost of developing your website as well as operational cost of running your servers and supporting your customers.</p>
+<h3>Finance</h3>
+<p>The finance section should answer “what financial resources do I need to support this business model, and what is the return on investment?”. This is hard to answer in specifics in a business model sketch, and should be tackled in more detail in a complete business plan. However, once you complete the other sections, you should be able to answer these questions:</p>
+<ul>
+	<li>Is this a financial capital-intensive business to set up? To run? If yes, what is the risk to capital committed to the business? What return can I offer owners of capital given that risk? How can I source that capital, loans or equity investment?</li>
+	<li>Is this a human capital-intensive business to set up? If yes, what is my recruitment strategy? Can I attract the right talent? Would I compensate them with equity or a salary?</li>
+</ul>
+
+  </div>
+  
+</div>
+
+<div class="pagination">
+  
+    <a class="pagination-item older" href="/page10">Older</a>
+  
+  
+    
+      <a class="pagination-item newer" href="/page8">Newer</a>
+    
+  
+</div>
+    </div>
+
+    
+      <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-25710888-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+    
+  </body>
+</html>

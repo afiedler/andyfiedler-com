@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+  <head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="google-site-verification" content="-Dvab_6VGkQMicZl4INhBCLfzJs7AWMwuSpN8CmbjVA" />
+
+  <!-- Enable responsiveness on mobile devices-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>
+    
+      Time Series Database &middot; Andy Fiedler
+    
+  </title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/public/css/poole.css">
+  <link rel="stylesheet" href="/public/css/syntax.css">
+  <link rel="stylesheet" href="/public/css/hyde.css">
+  <link rel="stylesheet" href="/public/css/fiedler.css">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface">
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha256-3dkvEK0WLHRJ7/Csr0BZjAWxERc5WH7bdeUya2aXxdU= sha512-+L4yy6FRcDGbXJ9mPG8MT/3UCDzwR9gPeyFNMCtInsol++5m3bk2bXWKdZjvybmohrAsn3Ua5x8gfLnbE1YkOg==" crossorigin="anonymous">
+
+  <!-- Icons -->
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+
+  <!-- JS -->
+  <script>
+    // Picture element HTML5 shiv
+    document.createElement( "picture" );
+  </script>
+  <script async src="/public/js/picturefill.min.js"></script>
+</head>
+
+
+  <body>
+
+    <div class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <h1>
+        <a href="/">
+          Andy Fiedler
+        </a>
+      </h1>
+      <p class="lead"></p>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a class="sidebar-nav-item" href="/">Home</a>
+
+      
+
+      
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+            
+              <a class="sidebar-nav-item" href="/projects/">Projects</a>
+            
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+
+    </nav>
+
+    <div class="sidebar-footer">
+      <p>&copy; 2021 <a href="https://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC</a>.</p>
+    </div>
+  </div>
+</div>
+
+
+    <div class="content container">
+      <div class="page">
+  <header>
+    <h1 class="page-title">Time Series Database</h1>
+    
+    <span class="page-subtitle"></span>
+    
+  </header>
+  <h2 id="deprecated">Deprecated</h2>
+<p>This project isn’t being maintained any more. Check out my replacement, <a title="TsTables &ndash; Store High Frequency Data with PyTables" href="http:&#47;&#47;andyfiedler.com&#47;projects&#47;tstables-store-high-frequency-data-with-pytables&#47;">TsTables&lt;/a&gt;!&lt;/p&gt;</a></p>
+<h2>Overview&lt;&#47;h2&gt;<br />
+This project was started as a way to organize massive amounts of time series data. We had terabytes of high frequency foreign exchange data and wanted to run models on it in common statistical programming languages like R and MATLAB. However, with that much data, there is no way we could fit it into memory on a normal desktop PC.&lt;/p&gt;
+<p>Believe it or not, there is no simple, affordable solution to this problem out there. We tried stuffing it into MySQL (epic fail), SAS (couldn't figure out a good way to index it, plus we wanted to use MATLAB and R for analysis), and flat text files (sort of worked, but was clumsy and space-inefficient).</p>
+<p>We did, however, find the excellent <a href="http:&#47;&#47;hdfgroup.org">HDF5 library&lt;&#47;a&gt;, which is used by many scientists to store large matrixes. HDF5 seemed like a good solution, but it has no time series indexing. Time Series Database (TSDB), is a wrapper on HDF5 to provide a nice interface for storing time series data as well as a basic sparse B-Tree index on the timestamp. TSDB takes advantage of the fact that most time series data is already sorted and thus you can save a ton of space by inserting an index point every few thousand records and then sequentially searching to find your desired record.&lt;/p&gt;
+<h2>Features&lt;&#47;h2&gt;&lt;/p&gt;
+<ul>
+<li>Fast subsetting. Able to extract a million rows into MATLAB in a few seconds&lt;&#47;li&gt;
+<li>Compact file size. It uses a sparse index, so no more multi-gigabyte SAS or relational database indexes. ZLib compression is also enabled by default for further space&nbsp;savings.&lt;&#47;li&gt;
+<li>Millisecond precision&lt;&#47;li&gt;
+<li>Multiple records with the same timestamp are okay&lt;&#47;li&gt;
+<li>Gaps in data are okay. TSDB does not force you to store your data on an equally-spaced grid, like time series databases like <a href="http:&#47;&#47;www.sungard.com&#47;fame">FAME&lt;&#47;a&gt;.&lt;&#47;li&gt;
+<li>A bunch of datatypes
+<ul>
+<li>32-bit integer&lt;&#47;li&gt;
+<li>8-bit integer&lt;&#47;li&gt;
+<li>64-bit double&lt;&#47;li&gt;
+<li>1-byte character&lt;&#47;li&gt;
+<li>64-bit timestamp (millisecond precision)&lt;&#47;li&gt;
+<li>string (user-specified length)&lt;&#47;li&gt;<br />
+&lt;&#47;ul&gt;<br />
+&lt;&#47;li&gt;<br />
+&lt;&#47;ul&gt;&lt;/p&gt;
+<h2>Limitations&lt;&#47;h2&gt;&lt;/p&gt;
+<ul>
+<li>Time series are <strong>append only&lt;&#47;strong&gt;. It's possible with HDF5 to edit or insert data in the middle of table, but we haven't written the code to update the indexes in that case. I probably won't add that feature because this is designed for batch appends of CSV data.&lt;&#47;li&gt;
+<li>When appending, you&nbsp;<strong>must&lt;&#47;strong&gt; start appending with a row that has a timestamp equal to or after the last timestamp of the existing table. The library will refuse your append if that's not the case.&lt;&#47;li&gt;
+<li>Any data you append must be sorted from earliest timestamp to latest.&lt;&#47;li&gt;
+<li>You cannot add or remove a column after a time series is created.&lt;&#47;li&gt;
+<li>You cannot delete a time series from a file (you can obviously delete a file, though).&lt;&#47;li&gt;
+<li>You cannot have variable length rows. So, if you include a large string field then that number of byte is allocated for each row no matter the length of the string stored in that row. Compression helps with this problem, though, and changing it would slow down the library.&lt;&#47;li&gt;
+<li>You can't change the precision of the timestamps (millisecond only).&lt;&#47;li&gt;
+<li>You can't store timezone info with the timestamp. The library makes no time zone assumptions, though.&lt;&#47;li&gt;
+<li>It does <strong>not&lt;&#47;strong&gt; support transactions, so if your program crashes while you are writing to a time series, you could corrupt the file. Keep backups!&lt;&#47;li&gt;
+<li>Its not under active development. But, if there's a glaring bug, I'll try to fix it.&lt;&#47;li&gt;<br />
+&lt;&#47;ul&gt;&lt;/p&gt;
+<h2>Intended usage&lt;&#47;h2&gt;<br />
+TSDB is beta software, at best. You should&nbsp;<strong>not&lt;&#47;strong&gt; use it to store your only copy of some critical data. Its best use it to store a copy of your raw data in a format that makes it very easy to extract subsets. The idea is to write your time series model in a way that you pull subsets of your data into memory, do some processing, and then write the result to disc.&lt;/p&gt;
+<h2>Get the source code&lt;&#47;h2&gt;<br />
+The source code is hosted on Github. I'm in the process of cleaning up this library, and right now only the C++ library is ready to use. I've only tested the build instructions on a Mac (although Linux should be very similar).&lt;/p&gt;
+<ul>
+<li><a href="https:&#47;&#47;github.com&#47;afiedler&#47;tsdb">Get a copy of the source here&lt;&#47;a&gt;.&lt;&#47;li&gt;
+<li><a href="https:&#47;&#47;github.com&#47;afiedler&#47;tsdb&#47;wiki&#47;Build-Instructions-(Mac-OSX)">Build instructions for Mac OS X are here&lt;&#47;a&gt;.&lt;&#47;li&gt;<br />
+&lt;&#47;ul&gt;&lt;/p&gt;
+<h2>&lt;&#47;h2&gt;&lt;/p&gt;
+</h2></a></li></a></li></ul></h2></strong></h2></li></strong></li></li></li></li></li></li></li></strong></li></strong></li></ul></h2></li></li></li></li></li></li></ul></li></a></li></li></li></li></li></ul></h2></a></p></h2>
+
+</div>
+
+    </div>
+
+    
+      <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-25710888-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+    
+  </body>
+</html>

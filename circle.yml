@@ -1,0 +1,17 @@
+machine:
+  ruby:
+    version: 2.2.2
+
+dependencies:
+  pre:
+    - gem install bundler
+
+test:
+  post:
+    - bundle exec jekyll build
+
+deployment:
+  production:
+    branch: master
+    commands:
+      - bash ./bin/automated
