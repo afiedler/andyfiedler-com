@@ -67,7 +67,7 @@ export default function Home({ allPostsData }: { allPostsData: PostMeta[] }) {
                   Posts
                 </h3>
                 <a
-                  href="/blog"
+                  href="/posts"
                   className="flex items-center pl-10 font-body italic text-green dark:text-green-light transition-colors dark:hover:text-secondary hover:text-secondary"
                 >
                   All posts

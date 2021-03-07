@@ -16,8 +16,10 @@ export function getSortedPostsData(): PostMeta[] {
   // Get file names under /posts
   const fileNames = fs.readdirSync(postsDirectory);
   const allPostsData = fileNames.map((fileName) => {
-    // Remove ".md" from file name to get id
-    const id = fileName.replace(/\.md$/, "");
+    // Remove ".md" and date from file name to get id
+    const id = fileName
+      .replace(/\.md$/, "")
+      .replace(/^\d{4}\-\d{2}\-\d{2}\-/, "");
 
     // Read markdown file as string
     const fullPath = path.join(postsDirectory, fileName);
@@ -32,6 +34,14 @@ export function getSortedPostsData(): PostMeta[] {
       ...matterResult.data,
     } as PostMeta;
   });
+
+  // Check for duplicate IDs
+  const uniqIds = new Set();
+  for (const p of allPostsData) {
+    if (uniqIds.has(p.id)) throw new Error("duplicate post ID: " + p.id);
+    uniqIds.add(p.id);
+  }
+
   // Sort posts by date
   return allPostsData.sort((a, b) => {
     if (a.date < b.date) {
@@ -45,16 +55,26 @@ export function getSortedPostsData(): PostMeta[] {
 export function getAllPostIds() {
   const fileNames = fs.readdirSync(postsDirectory);
   return fileNames.map((fileName) => {
+    const id = fileName
+      .replace(/\.md$/, "")
+      .replace(/^\d{4}\-\d{2}\-\d{2}\-/, "");
     return {
       params: {
-        id: fileName.replace(/\.md$/, ""),
+        id,
       },
     };
   });
 }
 
 export async function getPostData(id) {
-  const fullPath = path.join(postsDirectory, `${id}.md`);
+  const fileNames = fs.readdirSync(postsDirectory);
+  const fileName = fileNames.find((file) => {
+    const fileId = file
+      .replace(/\.md$/, "")
+      .replace(/^\d{4}\-\d{2}\-\d{2}\-/, "");
+    return fileId === id;
+  });
+  const fullPath = path.join(postsDirectory, fileName);
   const fileContents = fs.readFileSync(fullPath, "utf8");
 
   // Use gray-matter to parse the post metadata section
