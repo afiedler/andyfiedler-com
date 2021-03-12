@@ -5,7 +5,7 @@ function Name() {
   return (
     <a href="/" className="flex items-center">
       <p className="font-body font-bold text-2xl text-primary dark:text-white">
-        John Doe
+        Andy Fiedler
       </p>
     </a>
   );

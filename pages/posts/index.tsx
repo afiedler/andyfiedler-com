@@ -4,7 +4,6 @@ import { getSortedPostsData, PostMeta } from "../../lib/posts";
 import { GetStaticProps } from "next";
 import Header from "../../components/header";
 import PageGroup from "../../components/PageGroup";
-import RecentPosts from "../../components/RecentPosts";
 import PostStub from "../../components/PostStub";
 
 export default function Blog({ allPostsData }: { allPostsData: PostMeta[] }) {
@@ -24,7 +23,11 @@ export default function Blog({ allPostsData }: { allPostsData: PostMeta[] }) {
               </h3>
               <div className="pt-8 lg:pt-12">
                 {allPostsData.map((p, idx) => (
-                  <PostStub post={p} additionalClassName={idx > 0 && "pt-10"} />
+                  <PostStub
+                    key={p.id}
+                    post={p}
+                    additionalClassName={idx > 0 && "pt-10"}
+                  />
                 ))}
               </div>
             </div>
