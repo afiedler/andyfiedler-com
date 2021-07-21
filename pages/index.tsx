@@ -13,7 +13,7 @@ function ProjectsBlock() {
     <div className={blockPadding}>
       <div className="flex items-baseline pb-6">
         <h3 className="font-body font-semibold text-primary dark:text-white text-2xl">
-          My Projects
+          Projects
         </h3>
       </div>
       <div>
@@ -95,7 +95,7 @@ function RecentPostsBlock({ allPostsData }: AllPostsProps) {
           All posts →
         </a>
       </div>
-      <RecentPosts count={3} allPosts={allPostsData} />
+      <RecentPosts count={5} allPosts={allPostsData} />
     </div>
   );
 }
@@ -111,7 +111,7 @@ export default function Home({ allPostsData }: AllPostsProps) {
         <Header />
         <PageGroup>
           <div>
-            <ProjectsBlock />
+            {/* <ProjectsBlock /> */}
             <RecentPostsBlock allPostsData={allPostsData} />
           </div>
         </PageGroup>

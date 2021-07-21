@@ -33,7 +33,7 @@ function Nav() {
       </div>
       <div className="hidden lg:block">
         <ul className="flex items-center">
-          <li className="mr-6 relative group mb-1">
+          {/* <li className="mr-6 relative group mb-1">
             <div className="absolute left-0 bottom-0 w-full transition-all h-0 group-hover:h-2 group-hover:bg-yellow opacity-75 z-20"></div>
             <a
               href="/"
@@ -41,7 +41,7 @@ function Nav() {
             >
               Intro
             </a>
-          </li>
+          </li> */}
 
           <li className="mr-6 relative group mb-1">
             <div className="absolute left-0 bottom-0 w-full transition-all h-0 group-hover:h-2 group-hover:bg-yellow opacity-75 z-20"></div>
@@ -53,7 +53,7 @@ function Nav() {
             </a>
           </li>
 
-          <li className="mr-6 relative group mb-1">
+          {/* <li className="mr-6 relative group mb-1">
             <div className="absolute left-0 bottom-0 w-full transition-all h-0 group-hover:h-2 group-hover:bg-yellow opacity-75 z-20"></div>
             <a
               href="/uses"
@@ -61,9 +61,9 @@ function Nav() {
             >
               Uses
             </a>
-          </li>
+          </li> */}
 
-          <li className="mr-6 relative group mb-1">
+          {/* <li className="mr-6 relative group mb-1">
             <div className="absolute left-0 bottom-0 w-full transition-all h-0 group-hover:h-2 group-hover:bg-yellow opacity-75 z-20"></div>
             <a
               href="/contact"
@@ -71,7 +71,7 @@ function Nav() {
             >
               Contact
             </a>
-          </li>
+          </li> */}
 
           <li>
             <i className="bx text-3xl text-primary dark:text-white cursor-pointer"></i>
@@ -99,41 +99,41 @@ function Nav() {
             onClick={() => setIsMobileMenuOpen(false)}
           ></i>
           <ul className="flex flex-col mt-8">
-            <li className="">
+            {/* <li className="">
               <a
                 href="/"
                 className="font-body font-medium text-lg text-white px-2 block mb-3"
               >
                 Intro
               </a>
-            </li>
+            </li> */}
 
             <li className="">
               <a
-                href="/blog"
+                href="/posts"
                 className="font-body font-medium text-lg text-white px-2 block mb-3"
               >
-                Blog
+                Posts
               </a>
             </li>
 
-            <li className="">
+            {/* <li className="">
               <a
                 href="/uses"
                 className="font-body font-medium text-lg text-white px-2 block mb-3"
               >
                 Uses
               </a>
-            </li>
+            </li> */}
 
-            <li className="">
+            {/* <li className="">
               <a
                 href="/contact"
                 className="font-body font-medium text-lg text-white px-2 block mb-3"
               >
                 Contact
               </a>
-            </li>
+            </li> */}
           </ul>
         </div>
       </div>
