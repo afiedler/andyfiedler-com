@@ -9,7 +9,7 @@ export default function PostStub({
 }) {
   return (
     <div
-      className={`border-b border-grey-lighter pb-8 ${
+      className={`border-b border-grey-lighter pb-6 ${
         additionalClassName || ""
       }`}
     >
