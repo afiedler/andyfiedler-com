@@ -37,14 +37,11 @@ export default function Blog({ allPostsData }: { allPostsData: PostMeta[] }) {
         <PageGroup>
           <div className="flex flex-col sm:flex-row justify-between items-center border-t border-grey-lighter py-10 sm:py-12">
             <div className="flex flex-col sm:flex-row items-center mr-auto">
-              <a href="/" className="mr-auto sm:mr-6">
-                <img src="/assets/img/logo.svg" alt="logo" />
-              </a>
               <p className="font-body font-light text-primary dark:text-white pt-5 sm:pt-0">
-                ©2020 John Doe.
+                ©2021 Andy Fiedler
               </p>
             </div>
-            <div className="flex items-center pt-5 sm:pt-0 mr-auto sm:mr-0">
+            {/* <div className="flex items-center pt-5 sm:pt-0 mr-auto sm:mr-0">
               <a href="https://github.com/ " target="_blank">
                 <i className="text-4xl text-primary dark:text-white pl-5 hover:text-secondary dark:hover:text-secondary transition-colors bx bxl-github"></i>
               </a>
@@ -56,7 +53,7 @@ export default function Blog({ allPostsData }: { allPostsData: PostMeta[] }) {
               <a href="https://www.linkedin.com/ " target="_blank">
                 <i className="text-4xl text-primary dark:text-white pl-5 hover:text-secondary dark:hover:text-secondary transition-colors bx bxl-linkedin"></i>
               </a>
-            </div>
+            </div> */}
           </div>
         </PageGroup>
       </div>

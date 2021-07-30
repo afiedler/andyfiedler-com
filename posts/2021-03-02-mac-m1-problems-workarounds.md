@@ -1,5 +1,5 @@
 ---
-title: "Mac M1 Gotchas"
+title: "Mac M1 Problems and Workarounds"
 date: "2021-07-21"
 ---
 

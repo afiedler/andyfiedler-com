@@ -7,9 +7,9 @@ import PageGroup from "../../components/PageGroup";
 function TitleBlock({ post }: { post: PostMeta }) {
   return (
     <div className="border-b border-grey-lighter pb-8 sm:pb-12">
-      <span className="font-body text-green text-sm inline-block bg-green-light mb-5 sm:mb-8 px-2 py-1 rounded-full">
+      {/* <span className="font-body text-green text-sm inline-block bg-green-light mb-5 sm:mb-8 px-2 py-1 rounded-full">
         category
-      </span>
+      </span> */}
       <h2 className="font-body font-semibold text-primary dark:text-white text-3xl sm:text-4xl md:text-5xl block leading-tight">
         {post.title}
       </h2>
