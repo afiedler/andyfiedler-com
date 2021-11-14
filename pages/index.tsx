@@ -1,10 +1,12 @@
 import Head from "next/head";
+import Image from "next/image";
 import Layout, { siteTitle } from "../components/layout";
 import { getSortedPostsData, PostMeta } from "../lib/posts";
 import { GetStaticProps } from "next";
 import Header from "../components/header";
 import PageGroup from "../components/PageGroup";
 import RecentPosts from "../components/RecentPosts";
+import wgpuWasmThumb from "../projects/wgpu-wasm-viewer/thumbnail.png";
 
 const blockPadding = "py-6 lg:py-10";
 
@@ -18,57 +20,21 @@ function ProjectsBlock() {
       </div>
       <div>
         <a
-          href=" / "
+          href="https://github.com/afiedler/wgpu-wasm-viewer"
+          target="_blank"
           className="px-4 sm:px-6 py-4 border border-grey-lighter flex justify-between items-center mb-6"
         >
-          <span className="w-9/10 pr-8">
-            <h4 className="font-body font-semibold text-primary dark:text-white text-lg">
-              TailwindCSS
-            </h4>
-            <p className="font-body font-light text-primary dark:text-white">
-              Rapidly build modern websites without ever leaving your HTML.
-            </p>
+          <span className="pr-8">
+            <Image src={wgpuWasmThumb} />
           </span>
-        </a>
-
-        <a
-          href=" / "
-          className="px-4 sm:px-6 py-4 border border-grey-lighter flex justify-between items-center mb-6"
-        >
-          <span className="w-9/10 pr-8">
+          <span className="pr-8">
             <h4 className="font-body font-semibold text-primary dark:text-white text-lg">
-              Maizzle
+              WGPU-WASM viewer
             </h4>
             <p className="font-body font-light text-primary dark:text-white">
-              Framework for Rapid Email Prototyping
-            </p>
-          </span>
-        </a>
-
-        <a
-          href=" / "
-          className="px-4 sm:px-6 py-4 border border-grey-lighter flex justify-between items-center mb-6"
-        >
-          <span className="w-9/10 pr-8">
-            <h4 className="font-body font-semibold text-primary dark:text-white text-lg">
-              Alpine.js
-            </h4>
-            <p className="font-body font-light text-primary dark:text-white">
-              Think of it like Tailwind for JavaScript.
-            </p>
-          </span>
-        </a>
-
-        <a
-          href=" / "
-          className="px-4 sm:px-6 py-4 border border-grey-lighter flex justify-between items-center mb-6"
-        >
-          <span className="w-9/10 pr-8">
-            <h4 className="font-body font-semibold text-primary dark:text-white text-lg">
-              PostCSS
-            </h4>
-            <p className="font-body font-light text-primary dark:text-white">
-              A tool for transforming CSS with JavaScript
+              A simple GLTF 3D viewer demonstrating the Rust packages{" "}
+              <code>wgpu</code>, <code>egui</code>, and{" "}
+              <code>wasm-bindgen</code>.
             </p>
           </span>
         </a>
@@ -111,7 +77,7 @@ export default function Home({ allPostsData }: AllPostsProps) {
         <Header />
         <PageGroup>
           <div>
-            {/* <ProjectsBlock /> */}
+            <ProjectsBlock />
             <RecentPostsBlock allPostsData={allPostsData} />
           </div>
         </PageGroup>
