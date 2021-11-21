@@ -25,7 +25,7 @@ function ProjectsBlock() {
           className="px-4 sm:px-6 py-4 border border-grey-lighter flex justify-between items-center mb-6"
         >
           <span className="pr-8">
-            <Image src={wgpuWasmThumb} unoptimized />
+            <Image src={wgpuWasmThumb} unoptimized width={320} height={239} />
           </span>
           <span className="pr-8">
             <h4 className="font-body font-semibold text-primary dark:text-white text-lg">
