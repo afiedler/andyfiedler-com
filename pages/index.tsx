@@ -69,7 +69,7 @@ export default function Home({ allPostsData }: AllPostsProps) {
             <a href="https://construction.autodesk.com/">
               Autodesk Construction Cloud
             </a>
-            . More to come on the website soon.
+            . More to come on this website soon.
           </section>
           <header className="font-bold mb-4">Find me elsewhere online</header>
           <section className="prose">
