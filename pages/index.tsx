@@ -1,11 +1,12 @@
 import Head from "next/head";
-import Image from "next/image";
 import Layout, { siteTitle } from "../components/layout";
 import { getSortedPostsData, PostMeta } from "../lib/posts";
 import { GetStaticProps } from "next";
 import Header from "../components/header";
 import PageGroup from "../components/PageGroup";
 import RecentPosts from "../components/RecentPosts";
+import GithubIcon from "../components/GithubIcon";
+import LinkedInIcon from "../components/LinkedInIcon";
 
 const blockPadding = "py-6 lg:py-10";
 
@@ -51,18 +52,47 @@ export default function Home({ allPostsData }: AllPostsProps) {
         <title>{siteTitle}</title>
       </Head>
 
-      <div id="main">
-        <Header />
+      <div id="main" className="mt-16">
+        {/* <Header />
         <PageGroup>
           <div>
             <ProjectsBlock />
             <RecentPostsBlock allPostsData={allPostsData} />
           </div>
+        </PageGroup> */}
+
+        <PageGroup>
+          <header className="font-bold mb-4">Hi, I'm Andy Fiedler</header>
+          <section className="prose max-w-none mb-4">
+            I live in New York City and work as a Software Engineering Manager
+            on{" "}
+            <a href="https://construction.autodesk.com/">
+              Autodesk Construction Cloud
+            </a>
+            . More to come on the website soon.
+          </section>
+          <header className="font-bold mb-4">Find me elsewhere online</header>
+          <section className="prose">
+            <ul>
+              <li>
+                <a href="https://github.com/afiedler">
+                  <GithubIcon className="mr-2 mb-1 inline-block" />
+                  afiedler
+                </a>
+              </li>
+              <li>
+                <a href="https://www.linkedin.com/in/andyfiedler/">
+                  <LinkedInIcon className="mr-2 mb-1 inline-block" />
+                  Andy Fiedler
+                </a>
+              </li>
+            </ul>
+          </section>
         </PageGroup>
 
         <PageGroup>
-          <div className="flex flex-col sm:flex-row justify-between items-center border-t border-grey-lighter py-10 sm:py-12">
-            <div className="flex flex-col sm:flex-row items-center mr-auto">
+          {/* <div className="flex flex-col sm:flex-row justify-between items-center border-t border-grey-lighter py-10 sm:py-12"> */}
+          {/* <div className="flex flex-col sm:flex-row items-center mr-auto">
               <p className="font-body font-light text-primary dark:text-white pt-5 sm:pt-0">
                 ©2021 Andy Fiedler.
               </p>
@@ -79,8 +109,8 @@ export default function Home({ allPostsData }: AllPostsProps) {
               <a href="https://www.linkedin.com/ " target="_blank">
                 <i className="text-4xl text-primary dark:text-white pl-5 hover:text-secondary dark:hover:text-secondary transition-colors bx bxl-linkedin"></i>
               </a>
-            </div>
-          </div>
+            </div> */}
+          {/* </div> */}
         </PageGroup>
       </div>
     </Layout>
