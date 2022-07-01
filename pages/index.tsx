@@ -71,6 +71,20 @@ export default function Home({ allPostsData }: AllPostsProps) {
             </a>
             . More to come on this website soon.
           </section>
+          <header className="font-bold mb-4">Projects</header>
+          <section className="prose max-w-none mb-4">
+            <ul>
+              <li>
+                <a href="https://raytracing.andyfiedler.com">Raytracing</a> - A
+                Rust-based raytracer that runs in the browser using WebAssembly,
+                or as a command-line tool. Based on{" "}
+                <a href="https://raytracing.github.io/">
+                  Raytracing in one Weekend
+                </a>
+                .
+              </li>
+            </ul>
+          </section>
           <header className="font-bold mb-4">Find me elsewhere online</header>
           <section className="prose">
             <ul>
