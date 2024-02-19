@@ -75,13 +75,24 @@ export default function Home({ allPostsData }: AllPostsProps) {
           <section className="prose max-w-none mb-4">
             <ul>
               <li>
-                <a href="https://raytracing.andyfiedler.com">Raytracing</a> - A
-                Rust-based raytracer that runs in the browser using WebAssembly,
-                or as a command-line tool. Based on{" "}
-                <a href="https://raytracing.github.io/">
+                <a href="https://raytracing.andyfiedler.com" target="_blank">
+                  Raytracing
+                </a>{" "}
+                - A Rust-based raytracer that runs in the browser using
+                WebAssembly, or as a command-line tool. Based on{" "}
+                <a href="https://raytracing.github.io/" target="_blank">
                   Raytracing in one Weekend
                 </a>
                 .
+              </li>
+            </ul>
+            <ul>
+              <li>
+                <a href="https://afiedler.github.io/nyc-map/" target="_blank">
+                  NYC Map
+                </a>{" "}
+                - A map of New York City using vector tiles and Mapbox GL JS.
+                Also shows NYC historic districts.
               </li>
             </ul>
           </section>
